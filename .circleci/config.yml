@@ -9,7 +9,7 @@ jobs:
       - image: circleci/postgres:latest
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_DB: persistor_banking
+          POSTGRES_DB: test
 
     steps:
       - checkout
