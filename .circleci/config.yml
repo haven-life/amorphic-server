@@ -30,9 +30,12 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
+      # run javascript tests!
       - run:
           name: test
           command: npm test
 
-
+      # run typescript tests!
+      - run:
+          name: test:ts
+          command: npm run test:ts
