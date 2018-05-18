@@ -1,4 +1,5 @@
-
+## 2.4.10
+* Inject a method to get a handle to Amorphic session.
 ## 2.4.9
 * Added clientInit.js to allow to remove the dependency for Bindster in Amorphic. See the pull request notes for more details (https://github.com/selsamman/amorphic/pull/55).
 ## 2.4.8
