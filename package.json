@@ -14,10 +14,10 @@
     "formidable": "1.1.1",
     "mongodb-bluebird": "0.1.2",
     "nconf": "0.8.5",
-    "persistor": "2.3.*",
-    "semotus": "2.3.*",
+    "persistor": "haven-life/persistor#feature/using-ts-supertype",
+    "semotus": "haven-life/semotus#feature/using-ts-supertype",
     "serve-static": "1.13.1",
-    "supertype": "2.2.*",
+    "supertype": "haven-life/supertype#swat/feature/typescript",
     "uglify-js": "2.7.5"
   },
   "devDependencies": {
@@ -38,6 +38,8 @@
     "es6-promise": "4.1.1"
   },
   "scripts": {
+    "compile": "tsc",
+    "build": "npm run compile",
     "lint": "eslint .",
     "test": "istanbul cover _mocha -- test/* -R spec",
     "test:docker": "docker-compose up --build",
@@ -47,7 +49,8 @@
     "test:example": "mocha test/example",
     "test-d": "istanbul cover _mocha -- test/daemon/* -R spec",
     "test-da": "istanbul cover _mocha -- test/daemon_auto/* -R spec",
-    "test:ts": "mocha -r ts-node/register typescript_tests/unittest.ts"
+    "test:ts": "mocha -r ts-node/register typescript_tests/unittest.ts",
+    "debug:test:ts": "tsc && mocha --inspect-brk typescript_tests/unittest.js"
   },
   "directories": {},
   "engines": {
