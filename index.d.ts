@@ -15,3 +15,8 @@ export declare var Config : any;
 export function remote(props?);
 export function property(props?: Object);
 export function supertypeClass(props?: any);
+
+export {Persistent} from './lib/utils/Persistent';
+export {AppController} from './lib/utils/AppController';
+export {SubController} from './lib/utils/SubController';
+export {Everything} from './lib/utils/Everything';
