@@ -36,6 +36,10 @@ The directory structure for an amorphic application must be the following:
         /your-application - where all your app code lives
         /common - where all the code that is common across your applications lives
 
+Create a `schema.json` file in your application directory which will contain your data schema information for persistor to persist your data to the database.
+
+Note: The `schema.json` file needs at least an opening and a closing curly brace.
+
 Start the application:
 
     $ node app.js --port <available port>
