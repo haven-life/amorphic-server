@@ -30,7 +30,7 @@ Create a `config.json` file top level at least the following options set:
         }
     }
 
-Generally the directory structure for an amorphic application is as follows:
+The directory structure for an amorphic application must be the following:
 
     /apps - directory of all amorphic applications (can have multiple applications under this directory)
         /your-application - where all your app code lives
