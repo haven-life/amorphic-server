@@ -1,4 +1,15 @@
-
+## 2.5.1
+* pool parameter for latest knex only allows numbers.
+# 2.5.0
+* Get latest persistor module with `knex` module upgrade and sensitiveData flag feature.
+## 2.4.13
+* Added back support of __ver being passed outside clientInit.js.
+## 2.4.12
+* Get latest persistor module
+## 2.4.11
+* Added better error logging for config params that are required for amorphic to start.
+## 2.4.10
+* Pruning unused require's and removing logging of configs during unit tests
 ## 2.4.9
 * Added clientInit.js to allow to remove the dependency for Bindster in Amorphic. See the pull request notes for more details (https://github.com/selsamman/amorphic/pull/55).
 ## 2.4.8
