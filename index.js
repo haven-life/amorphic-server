@@ -25,7 +25,7 @@ let Bluebird = require('bluebird');
 let Semotus = require('semotus');
 let Persistor = require('persistor');   // Only used for the typescript path
 
-let Supertype = require('supertype').default;
+let ObjectTemplate = require('supertype').default;
 
 // Local Modules
 let getTemplates = require('./lib/getTemplates').getTemplates;
@@ -133,7 +133,7 @@ let toExport = {
 // subtype of ObjectTemplate (either semotus or persistor).  By default we bind to persistor in case
 // someone has mocha tests that use the object model.
 toExport.bindDecorators = typescript.bindDecorators.bind(toExport);
-toExport.bindDecorators(Persistor(Supertype, null, Supertype)); // For tests
+toExport.bindDecorators(Persistor(ObjectTemplate, null, ObjectTemplate)); // For tests
 
 Object.defineProperty(toExport.Remoteable.prototype, 'amorphic', {get: function s() {
     return this.__objectTemplate__;
