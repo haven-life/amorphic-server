@@ -24,7 +24,6 @@
     "@types/chai": "4.0.4",
     "@types/mocha": "2.2.43",
     "@types/node": "8.0.46",
-    "amorphic-bindster": "git@github.com:haven-life/amorphic-bindster.git#swat/feature/remove-bindster-from-amorphic",
     "axios": "0.17.0",
     "chai": "4.1.2",
     "es6-promise": "4.1.1",
@@ -39,9 +38,6 @@
     "ts-node": "3.3.0",
     "typescript": "2.5.3",
     "xmlhttprequest-cookie": "0.9.4"
-  },
-  "peerDependencies": {
-    "amorphic-bindster": "git@github.com:haven-life/amorphic-bindster.git#swat/feature/remove-bindster-from-amorphic"
   },
   "scripts": {
     "compile": "tsc",
