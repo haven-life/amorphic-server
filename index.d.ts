@@ -1,7 +1,6 @@
 export {Supertype} from 'supertype';
 export {Persistable, ContainsPersistable, Persistor} from 'persistor';
 export {Remoteable, amorphicStatic} from './lib/utils/remoteable';
-export {Bindable} from 'amorphic-bindster';
 import {Persistor} from 'persistor';
 
 // This class is for Amorphic unit tests
