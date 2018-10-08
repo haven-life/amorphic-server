@@ -7,5 +7,5 @@ WORKDIR /app
 
 COPY ./wait-for-it.sh .
 COPY ./ ./
-RUN npm install --production=false
+RUN npm install
 RUN npm run build
