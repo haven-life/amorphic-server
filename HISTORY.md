@@ -1,5 +1,7 @@
-## 2.7.0
+## 2.8.0
 * upgrade HTTP module from connect to express.
+## 2.7.0
+* Supertype typescript now supported
 ## 2.6.0
 * environment specific configs are now supported
 * "session data not as saved" is now a warning instead of an error
