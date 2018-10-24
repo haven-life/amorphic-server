@@ -14,9 +14,5 @@
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  },
-  "include": [
-    "./node_modules/supertype",
-    "./typescript_tests"
-  ]
+  }
 }
