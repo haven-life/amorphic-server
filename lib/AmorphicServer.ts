@@ -14,7 +14,6 @@ let nonObjTemplatelogLevel = 1;
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as fs from 'fs';
-import * as serveStatic from 'serve-static';
 import * as compression from 'compression';
 
 export class AmorphicServer {
@@ -58,10 +57,10 @@ export class AmorphicServer {
             if (appStartList.includes(appName)) {
                 let appPath = `${appDirectory}/${appList[appName]}/public`;
 
-                server.app.use(`/${appName}/`, serveStatic(appPath, { index: 'index.html' }));
+                server.app.use(`/${appName}/`, express.static(appPath, { index: 'index.html' }));
 
                 if (appName === mainApp) {
-                    server.app.use('/', serveStatic(appPath, { index: 'index.html' }));
+                    server.app.use('/', express.static(appPath, { index: 'index.html' }));
                 }
 
                 logMessage(`${appName} connected to ${appPath}`);
@@ -88,12 +87,12 @@ export class AmorphicServer {
         }
 
         server.app.use(initializePerformance)
-            .use('/modules/', serveStatic(`${appDirectory}/node_modules`))
-            .use('/bindster/', serveStatic(`${rootBindster}/node_modules/amorphic-bindster`))
-            .use('/amorphic/', serveStatic(`${appDirectory}/node_modules/amorphic`))
-            .use('/common/', serveStatic(`${appDirectory}/apps/common`))
-            .use('/supertype/', serveStatic(`${rootSuperType}/node_modules/supertype`))
-            .use('/semotus/', serveStatic(`${rootSemotus}/node_modules/semotus`))
+            .use('/modules/', express.static(`${appDirectory}/node_modules`))
+            .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
+            .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
+            .use('/common/', express.static(`${appDirectory}/apps/common`))
+            .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
+            .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`))
             .use(cookieParser())
             .use(sessionRouter)
             .use(uploadRouter.bind(this, downloads))

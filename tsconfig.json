@@ -1,6 +1,5 @@
 {
   "include": [
-    "./lib/startUpServer.ts",
     "./lib/AmorphicServer.ts"
   ],
   "compilerOptions": {
