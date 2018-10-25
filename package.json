@@ -6,7 +6,6 @@
   "dependencies": {
     "amorphic-bindster": "2.0.*",
     "bluebird": "3.5.1",
-    "body-parser": "1.18.2",
     "chalk": "2.4.1",
     "compression": "1.7.1",
     "cookie-parser": "1.4.3",
@@ -17,7 +16,6 @@
     "nconf": "0.8.5",
     "persistor": "2.6.*",
     "semotus": "2.4.*",
-    "serve-static": "1.13.1",
     "supertype": "3.0.*",
     "uglify-js": "2.7.5"
   },

@@ -48,7 +48,7 @@ describe('Run amorphic as a deamon', function() {
             }
         })
             .then(function(fileData) {
-                return axios.get('http://localhost:3001/amorphic/xhr?path=daemon&file=DownloadTest.txt')
+                return axios.get('http://localhost:3001/amorphic/file?path=daemon&file=DownloadTest.txt')
                     .then(function(response) {
                         assert.isOk(response, 'The response is ok');
                         assert.strictEqual(response.status, 200, 'The response code was 200');
