@@ -1,4 +1,8 @@
 {
+  "include": [
+    "./lib/startUpServer.ts",
+    "./lib/AmorphicServer.ts"
+  ],
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
@@ -12,10 +16,8 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
+    "allowJs": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-  },
-  "include": [
-    "./lib/startUpServer.ts"
-  ]
+    "emitDecoratorMetadata": true
+  }
 }
