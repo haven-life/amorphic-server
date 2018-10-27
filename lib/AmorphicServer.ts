@@ -11,13 +11,63 @@ let router = require('./routers/router').router;
 let generateDownloadsDir = require('./utils/generateDownloadsDir').generateDownloadsDir;
 let nonObjTemplatelogLevel = 1;
 
+
+import * as expressSession from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as fs from 'fs';
 import * as compression from 'compression';
 
+const routesRelativePath = '/js/routes/';
+const middlewaresRelativePath = '/js/middlewares/';
+/**
+ * @TODO: seperate out amorphic shit to defaultRouter (express.Router) to seperate out middleware
+ */
 export class AmorphicServer {
     app: express.Express;
+
+
+    /**
+     * @static
+     * @param {string} appDirectory is the directory wher the app is located 
+     * @param {AmorphicServer} server
+     * @returns
+     * @memberof AmorphicServer
+     */
+    static setupStatics(appDirectory: string, server: AmorphicServer) {
+        //   TODO: Do we actually need these checks?
+        let rootSuperType, rootSemotus, rootBindster;
+
+        if (fs.existsSync(`${appDirectory}/node_modules/supertype`)) {
+            rootSuperType = appDirectory;
+        }
+        else {
+            rootSuperType = __dirname;
+        }
+
+        if (fs.existsSync(`${appDirectory}/node_modules/semotus`)) {
+            rootSemotus = appDirectory;
+        }
+        else {
+            rootSemotus = __dirname
+        }
+
+        if (fs.existsSync(`${appDirectory}/node_modules/amorphic-bindster`)) {
+            rootBindster = appDirectory;
+        }
+        else {
+            rootBindster = __dirname;
+        }
+
+        server.app.use('/modules/', express.static(`${appDirectory}/node_modules`))
+            .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
+            .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
+            .use('/common/', express.static(`${appDirectory}/apps/common`))
+            .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
+            .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`));
+
+        return server;
+    }
 
     /**
     * Purpose unknown
@@ -29,11 +79,9 @@ export class AmorphicServer {
     * @param {unknown} appDirectory unknown
     * @param {unknown} sessionRouter unknown
     */
-
-    static createServer(preSessionInject, postSessionInject, appList, appStartList, appDirectory, sessionRouter) {
+    static createServer(preSessionInject, postSessionInject, appList, appStartList, appDirectory, sessionConfig) {
 
         let controllers = {};
-        let downloads;
         let sessions = {};
 
         let amorphicOptions = AmorphicContext.amorphicOptions;
@@ -43,7 +91,7 @@ export class AmorphicServer {
         let reqBodySizeLimit = appConfig.reqBodySizeLimit || '50mb';
         let server = new AmorphicServer(express());
 
-        downloads = generateDownloadsDir();
+        const downloads = generateDownloadsDir();
 
         if (amorphicOptions.compressXHR) {
             server.app.use(compression());
@@ -53,9 +101,16 @@ export class AmorphicServer {
             preSessionInject.call(null, server.app);
         }
 
+        let appPaths: string[] = [];
+
+        /**
+         * Deprecated(?) because we only run app at a time
+         */
         for (let appName in appList) {
             if (appStartList.includes(appName)) {
+
                 let appPath = `${appDirectory}/${appList[appName]}/public`;
+                appPaths.push(appPath);
 
                 server.app.use(`/${appName}/`, express.static(appPath, { index: 'index.html' }));
 
@@ -67,45 +122,30 @@ export class AmorphicServer {
             }
         }
 
-        // TODO: Do we actually need these checks?
-        let rootSuperType = __dirname;
+        /**
+         *  Setting up the different middlewares
+         */
+        let cookieMiddleware = cookieParser();
+        let expressSesh = expressSession(sessionConfig);
+        let bodyLimitMiddleWare = express.json({
+            limit: reqBodySizeLimit
+        });
 
-        if (fs.existsSync(`${appDirectory}/node_modules/supertype`)) {
-            rootSuperType = appDirectory;
-        }
+        let urlEncodedMiddleWare = express.urlencoded({
+            extended: true
+        });
 
-        let rootSemotus = __dirname;
 
-        if (fs.existsSync(`${appDirectory}/node_modules/semotus`)) {
-            rootSemotus = appDirectory;
-        }
-
-        let rootBindster = __dirname;
-
-        if (fs.existsSync(`${appDirectory}/node_modules/amorphic-bindster`)) {
-            rootBindster = appDirectory;
-        }
-
-        server.app.use(initializePerformance)
-            .use('/modules/', express.static(`${appDirectory}/node_modules`))
-            .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
-            .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
-            .use('/common/', express.static(`${appDirectory}/apps/common`))
-            .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
-            .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`))
-            .use(cookieParser())
-            .use(sessionRouter)
+        server.app.use(initializePerformance);
+        this.setupStatics(appDirectory, server);
+        server.app.use(cookieMiddleware)
+            .use(expressSesh)
             .use(uploadRouter.bind(this, downloads))
             .use(downloadRouter.bind(this, sessions, controllers, nonObjTemplatelogLevel))
-            .use(express.json({
-                limit: reqBodySizeLimit
-            }))
-            .use(express.urlencoded({
-                extended: true
-            }))
+            .use(bodyLimitMiddleWare)
+            .use(urlEncodedMiddleWare)
             .use(postRouter.bind(this, sessions, controllers, nonObjTemplatelogLevel))
             .use(amorphicEntry.bind(this, sessions, controllers, nonObjTemplatelogLevel));
-
 
         if (postSessionInject) {
             postSessionInject.call(null, server.app);
@@ -117,12 +157,34 @@ export class AmorphicServer {
     }
 
     /**
-        * @TODO: make this a proper class
-        *
-        * @param {express.Express} app Express server
-        * 
-     **/
+     * To be implemented
+     */
+    registerAppMiddlewares() {
+        
+    }
+
+    async registerAppsRoutes(appPaths: string[]) {
+        let promises = appPaths.map(async appPath => {
+            let router: express.Router = express.Router();
+            const routes: {[routeExport: string]: routeObject: any} = await import(`${appPath}${routesRelativePath}`);
+            // what are the types and values of Routes (key, value) dictionary. Key is what type and what value, value is what type and what value
+            
+            Object.keys(routes).forEach(key => {
+                
+            
+            });
+        });     
+        await promises;   
+    }
+
+    /**
+    * @TODO: make this a proper class
+    *
+    * @param {express.Express} app Express server
+    *
+    **/
     constructor(app: express.Express) {
         this.app = app;
+        this.app
     }
 }
