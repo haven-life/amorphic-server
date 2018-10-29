@@ -1,5 +1,7 @@
 ## 2.9.0
 * Listen now returns a promise and logs when amorphic is finished
+## 2.8.2
+* updating persistor module to 2.7.*
 ## 2.8.1
 * Updating persistor module to 2.6.*
 ## 2.8.0
