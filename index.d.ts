@@ -17,12 +17,12 @@ export function remote(props?);
 export function property(props?: Object);
 export function supertypeClass(props?: any);
 
-export enum RouteType {
-    //@TODO: fill with get, put, etc. see express's index.d.ts for the list of stuff
-}
+// export enum RouteType {
+//     //@TODO: fill with get, put, etc. see express's index.d.ts for the list of stuff
+// }
 
-export interface Route {
-    path: string;
-    HTTPMethod: RouteType;
-    callback: Handler;
-}
+// export interface Route {
+//     path: string;
+//     HTTPMethod: RouteType;
+//     callback: Handler;
+// }

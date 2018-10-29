@@ -34,7 +34,7 @@ export class AmorphicServer {
      * @returns
      * @memberof AmorphicServer
      */
-    static setupStatics(appDirectory: string, server: AmorphicServer) {
+    static setupStatics(appDirectory: string, router: express.Router): express.Router {
         //   TODO: Do we actually need these checks?
         let rootSuperType, rootSemotus, rootBindster;
 
@@ -59,14 +59,14 @@ export class AmorphicServer {
             rootBindster = __dirname;
         }
 
-        server.app.use('/modules/', express.static(`${appDirectory}/node_modules`))
+        router.use('/modules/', express.static(`${appDirectory}/node_modules`))
             .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
             .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
             .use('/common/', express.static(`${appDirectory}/apps/common`))
             .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
             .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`));
 
-        return server;
+        return router;
     }
 
     /**
@@ -135,9 +135,11 @@ export class AmorphicServer {
             extended: true
         });
 
-        server.app.use(initializePerformance);
-        this.setupStatics(appDirectory, server);
-        server.app.use(cookieMiddleware)
+        const amorphicRouter: express.Router = express.Router();
+
+        amorphicRouter.use(initializePerformance);
+        AmorphicServer.setupStatics(appDirectory, amorphicRouter);
+        amorphicRouter.use(cookieMiddleware)
             .use(expressSesh)
             .use(uploadRouter.bind(this, downloads))
             .use(downloadRouter.bind(this, sessions, controllers, nonObjTemplatelogLevel))
@@ -147,11 +149,21 @@ export class AmorphicServer {
             .use(amorphicEntry.bind(this, sessions, controllers, nonObjTemplatelogLevel));
 
         if (postSessionInject) {
-            postSessionInject.call(null, server.app);
+            postSessionInject.call(null, amorphicRouter);
         }
 
-        server.app.use(router.bind(this, sessions, nonObjTemplatelogLevel, controllers));
-
+        amorphicRouter.use(router.bind(this, sessions, nonObjTemplatelogLevel, controllers));
+        // amorphicRouter.get('/', function () {console.log('GET route')});
+        // amorphicRouter.post('/', function () {console.log('POST route')});
+        // amorphicRouter.put('/', function () {console.log('PUT route')});
+        // amorphicRouter.patch('/', function () {console.log('PATCH route')});
+        // amorphicRouter.delete('/', function () {console.log('DELETE route')});
+        // amorphicRouter.head('/', function () {console.log('HEAD route')});
+        const amorphicPath = '/amorphic/xhr';
+        /** 
+         * where we set up all daemon mode stuff
+        */
+       server.app.use(`${amorphicPath}`, amorphicRouter);
         appContext.server = server.app.listen(amorphicOptions.port);
     }
 
