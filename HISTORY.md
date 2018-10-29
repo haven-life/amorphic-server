@@ -1,3 +1,5 @@
+## 2.10.0
+* updating persistor module to 2.8.* to pull async API calls change 
 ## 2.9.0
 * Listen now returns a promise and logs when amorphic is finished
 ## 2.8.2
