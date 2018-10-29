@@ -135,7 +135,6 @@ export class AmorphicServer {
             extended: true
         });
 
-
         server.app.use(initializePerformance);
         this.setupStatics(appDirectory, server);
         server.app.use(cookieMiddleware)
@@ -163,19 +162,19 @@ export class AmorphicServer {
         
     }
 
-    async registerAppsRoutes(appPaths: string[]) {
-        let promises = appPaths.map(async appPath => {
-            let router: express.Router = express.Router();
-            const routes: {[routeExport: string]: routeObject: any} = await import(`${appPath}${routesRelativePath}`);
-            // what are the types and values of Routes (key, value) dictionary. Key is what type and what value, value is what type and what value
+    // async registerAppsRoutes(appPaths: string[]) {
+    //     let promises = appPaths.map(async appPath => {
+    //         let router: express.Router = express.Router();
+    //         const routes: {[routeExport: string]: routeObject: any} = await import(`${appPath}${routesRelativePath}`);
+    //         // what are the types and values of Routes (key, value) dictionary. Key is what type and what value, value is what type and what value
             
-            Object.keys(routes).forEach(key => {
+    //         Object.keys(routes).forEach(key => {
                 
             
-            });
-        });     
-        await promises;   
-    }
+    //         });
+    //     });     
+    //     await promises;   
+    // }
 
     /**
     * @TODO: make this a proper class

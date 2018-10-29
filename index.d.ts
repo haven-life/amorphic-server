@@ -18,7 +18,7 @@ export function property(props?: Object);
 export function supertypeClass(props?: any);
 
 export enum RouteType {
-    
+    //@TODO: fill with get, put, etc. see express's index.d.ts for the list of stuff
 }
 
 export interface Route {
