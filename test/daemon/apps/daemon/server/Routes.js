@@ -1,16 +1,14 @@
 'use strict';
 
+// intake an express router object, mutate it with custom endpoints, send it back to amorphic to register.
 function routerSetup(expressRouter) {
-    console.log('This is our router!', expressRouter);
-
-    expressRouter.get('/tennis', tennisBallService.bind(this));
+    expressRouter.get('/tennis', tennisService.bind(this));
 
     return expressRouter;
 }
 
-function tennisBallService (req, res) {
-    console.log("!!! HEY A TENNIS BALL!");
-    res.send('TENNIS BALL INCOMING!');
+function tennisService (_req, res) {
+    res.status(200).send('Tennis API endpoint OK');
 }
 
 module.exports = {
