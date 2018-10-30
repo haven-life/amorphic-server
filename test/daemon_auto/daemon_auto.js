@@ -73,12 +73,12 @@ describe('Run amorphic as a deamon with template mode "auto"', function() {
             });
     });
 
-    it('should get a response from a custom endpoint', function() {
+    it('should get an 200 response from a custom GET endpoint', function() {
         return axios.get('http://localhost:3001/api/tennis')
             .then(function(response) {
-                console.log(response.data);
                 assert.isOk(response, 'The response is ok');
                 assert.strictEqual(response.status, 200, 'The response code was 200');
+                assert.strictEqual(response.data, 'Tennis API endpoint OK');
             });
     });
 
