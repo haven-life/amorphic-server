@@ -53,7 +53,7 @@
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "recreateDist": "rm -rf ./dist/ && mkdir ./dist/",
-    "test": "istanbul cover _mocha -- test/* -R spec",
+    "test": "istanbul cover _mocha -- test/* -R spec --exit",
     "test:docker": "docker-compose up --build",
     "test:trace": "mocha test/*",
     "test:debug": "mocha --debug-brk test/*",
