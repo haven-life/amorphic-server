@@ -34,7 +34,7 @@ export class AmorphicServer {
      * @returns
      * @memberof AmorphicServer
      */
-    static setupStatics(appDirectory: string, router: express.Router): express.Router {
+    static setupStatics(appDirectory: string, app: express.Express): express.Express {
         //   TODO: Do we actually need these checks?
         let rootSuperType, rootSemotus, rootBindster;
 
@@ -59,14 +59,14 @@ export class AmorphicServer {
             rootBindster = __dirname;
         }
 
-        router.use('/modules/', express.static(`${appDirectory}/node_modules`))
+        app.use('/modules/', express.static(`${appDirectory}/node_modules`))
             .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
             .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
             .use('/common/', express.static(`${appDirectory}/apps/common`))
             .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
             .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`));
 
-        return router;
+        return app;
     }
 
     /**
@@ -153,17 +153,8 @@ export class AmorphicServer {
         }
 
         amorphicRouter.use(router.bind(this, sessions, nonObjTemplatelogLevel, controllers));
-        // amorphicRouter.get('/', function () {console.log('GET route')});
-        // amorphicRouter.post('/', function () {console.log('POST route')});
-        // amorphicRouter.put('/', function () {console.log('PUT route')});
-        // amorphicRouter.patch('/', function () {console.log('PATCH route')});
-        // amorphicRouter.delete('/', function () {console.log('DELETE route')});
-        // amorphicRouter.head('/', function () {console.log('HEAD route')});
-        const amorphicPath = '/amorphic/xhr';
-        /** 
-         * where we set up all daemon mode stuff
-        */
-       server.app.use(`${amorphicPath}`, amorphicRouter);
+        const amorphicPath = '/amorphic';
+        server.app.use(`${amorphicPath}`, amorphicRouter);
         appContext.server = server.app.listen(amorphicOptions.port);
     }
 
