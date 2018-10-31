@@ -18,8 +18,6 @@ import * as express from 'express';
 import * as fs from 'fs';
 import * as compression from 'compression';
 
-const routesRelativePath = '/js/routes/';
-const middlewaresRelativePath = '/js/middlewares/';
 /**
  * @TODO: seperate out amorphic shit to defaultRouter (express.Router) to seperate out middleware
  */
@@ -166,26 +164,11 @@ export class AmorphicServer {
         appContext.server = server.app.listen(amorphicOptions.port);
     }
 
-    // /**
-    //  * To be implemented
-    //  */
-    // registerAppMiddlewares() {
-
-    // }
-
-    // async registerAppsRoutes(appPaths: string[]) {
-    //     let promises = appPaths.map(async appPath => {
-    //         let router: express.Router = express.Router();
-    //         const routes: {[routeExport: string]: routeObject: any} = await import(`${appPath}${routesRelativePath}`);
-    //         // what are the types and values of Routes (key, value) dictionary. Key is what type and what value, value is what type and what value
-
-    //         Object.keys(routes).forEach(key => {
-
-
-    //         });
-    //     });     
-    //     await promises;   
-    // }
+/**
+ * 
+ * @TODO: when registering the middlewares be careful!
+ * https://github.com/expressjs/express/issues/2679
+ */
 
     /**
     * @TODO: make this a proper class
