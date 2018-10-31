@@ -122,9 +122,18 @@ export class AmorphicServer {
             }
         }
 
+
         /**
-         *  Setting up the different middlewares
+        *  Setting up the general statics
+        */
+
+        AmorphicServer.setupStatics(appDirectory, server.app);
+
+
+        /**
+         *  Setting up the different middlewares for amorphic
          */
+
         let cookieMiddleware = cookieParser();
         let expressSesh = expressSession(sessionConfig);
         let bodyLimitMiddleWare = express.json({
@@ -138,7 +147,6 @@ export class AmorphicServer {
         const amorphicRouter: express.Router = express.Router();
 
         amorphicRouter.use(initializePerformance);
-        AmorphicServer.setupStatics(appDirectory, amorphicRouter);
         amorphicRouter.use(cookieMiddleware)
             .use(expressSesh)
             .use(uploadRouter.bind(this, downloads))
@@ -158,22 +166,22 @@ export class AmorphicServer {
         appContext.server = server.app.listen(amorphicOptions.port);
     }
 
-    /**
-     * To be implemented
-     */
-    registerAppMiddlewares() {
-        
-    }
+    // /**
+    //  * To be implemented
+    //  */
+    // registerAppMiddlewares() {
+
+    // }
 
     // async registerAppsRoutes(appPaths: string[]) {
     //     let promises = appPaths.map(async appPath => {
     //         let router: express.Router = express.Router();
     //         const routes: {[routeExport: string]: routeObject: any} = await import(`${appPath}${routesRelativePath}`);
     //         // what are the types and values of Routes (key, value) dictionary. Key is what type and what value, value is what type and what value
-            
+
     //         Object.keys(routes).forEach(key => {
-                
-            
+
+
     //         });
     //     });     
     //     await promises;   
