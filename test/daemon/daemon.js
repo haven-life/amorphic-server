@@ -1,11 +1,11 @@
 'use strict';
 let assert = require('chai').assert;
 let Bluebird = require('bluebird');
-let amorphic = require('../../index.js');
+let amorphic = require('../../dist/index.js');
 let axios = require('axios');
 let fs = require('fs');
 let path = require('path');
-let amorphicContext = require('../../lib/AmorphicContext');
+let amorphicContext = require('../../dist/lib/AmorphicContext');
 
 describe('Run amorphic as a deamon', function() {
 

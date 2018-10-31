@@ -10,6 +10,8 @@
       "es5",
       "es2015.promise"
     ],
+    "outDir": "./dist",
+    "rootDir": "./",
     "noImplicitAny": false,
     "sourceMap": true,
     "typeRoots": [
