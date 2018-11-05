@@ -72,12 +72,12 @@ export class AmorphicServer {
     /**
     * Purpose unknown
     *
-    * @param {unknown} preSessionInject unknown
-    * @param {unknown} postSessionInject unknown
-    * @param {unknown} appList unknown
-    * @param {unknown} appStartList unknown
-    * @param {unknown} appDirectory unknown
-    * @param {unknown} sessionRouter unknown
+    * @param preSessionInject - callback before server starts up
+    * @param postSessionInject - callback after server starts up
+    * @param appList - List of strings that are all the apps
+    * @param appStartList - List of strings that have the app names for start
+    * @param appDirectory - Location of the apps folder
+    * @param sessionConfig - Object containing the session config
     */
     static createServer(preSessionInject, postSessionInject, appList, appStartList, appDirectory, sessionConfig) {
 
