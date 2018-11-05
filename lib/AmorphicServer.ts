@@ -31,8 +31,7 @@ export class AmorphicServer {
      * @static
      * @param {string} appDirectory is the directory wher the app is located 
      * @param {AmorphicServer} server
-     * @returns
-     * @memberof AmorphicServer
+     * @returns @memberof AmorphicServer
      */
     static setupStatics(appDirectory: string, app: express.Express): express.Express {
         //   TODO: Do we actually need these checks?
