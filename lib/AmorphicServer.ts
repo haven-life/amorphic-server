@@ -149,19 +149,19 @@ export class AmorphicServer {
         amorphicRouter.use(initializePerformance);
         amorphicRouter.use(cookieMiddleware)
             .use(expressSesh)
-            .use(uploadRouter.bind(this, downloads))
-            .use(downloadRouter.bind(this, sessions, controllers, nonObjTemplatelogLevel))
+            .use(uploadRouter.bind(null, downloads))
+            .use(downloadRouter.bind(null, sessions, controllers, nonObjTemplatelogLevel))
             .use(bodyLimitMiddleWare)
             .use(urlEncodedMiddleWare)
-            .use(postRouter.bind(this, sessions, controllers, nonObjTemplatelogLevel))
-            .use(amorphicEntry.bind(this, sessions, controllers, nonObjTemplatelogLevel));
+            .use(postRouter.bind(null, sessions, controllers, nonObjTemplatelogLevel))
+            .use(amorphicEntry.bind(null, sessions, controllers, nonObjTemplatelogLevel));
 
         if (postSessionInject) {
             postSessionInject.call(null, amorphicRouter);
         }
         
 
-        amorphicRouter.use(router.bind(this, sessions, nonObjTemplatelogLevel, controllers));
+        amorphicRouter.use(router.bind(null, sessions, nonObjTemplatelogLevel, controllers));
         const amorphicPath = '/amorphic';
         server.app.use(`${amorphicPath}`, amorphicRouter);
 
