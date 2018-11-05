@@ -21,7 +21,7 @@ import * as fs from 'fs';
 import * as compression from 'compression';
 
 /**
- * @TODO: seperate out amorphic shit to defaultRouter (express.Router) to seperate out middleware
+ * @TODO: seperate out amorphic routes to defaultRouter (express.Router) to seperate out middleware
  */
 export class AmorphicServer {
     app: express.Express;
