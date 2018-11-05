@@ -45,9 +45,8 @@
     "xmlhttprequest-cookie": "0.9.4"
   },
   "scripts": {
-    "build": "npm run recreateDist && npm run copy && npm run compile:amorphic",
-    "compile": "npm run compile:amorphic && npm run compile:amorphic:tests",
-    "compile:amorphic": "tsc -p ./tsconfig.json",
+    "build": "npm run recreateDist && npm run copy && npm run compile",
+    "compile": "tsc -p ./tsconfig.json",
     "compile:amorphic:tests": "tsc -p ./typescript_tests/tsconfig.test.json",
     "copy": "cp *.js ./dist && cp index.* ./dist && cp -r ./lib ./dist && rm ./dist/lib/AmorphicServer.*",
     "lint": "eslint .",
