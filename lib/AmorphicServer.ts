@@ -101,7 +101,7 @@ export class AmorphicServer {
         let appPaths: string[] = [];
 
         /**
-         * Deprecated(?) because we only run app at a time
+         * Candidate for future deprecation because we only run app at a time
          */
         for (let appName in appList) {
             if (appStartList.includes(appName)) {
