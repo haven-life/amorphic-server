@@ -149,7 +149,7 @@ export class AmorphicServer {
         amorphicRouter.use(initializePerformance);
         amorphicRouter.use(cookieMiddleware)
             .use(expressSesh)
-            .use(() => this.createServer && uploadRouter(downloads))
+            .use(() => uploadRouter(downloads))
             .use(() => downloadRouter(sessions, controllers, nonObjTemplatelogLevel))
             .use(bodyLimitMiddleWare)
             .use(urlEncodedMiddleWare)
