@@ -190,6 +190,5 @@ export class AmorphicServer {
     **/
     constructor(app: express.Express) {
         this.app = app;
-        this.app
     }
 }
