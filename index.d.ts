@@ -4,7 +4,6 @@ export {Remoteable, amorphicStatic} from './lib/utils/remoteable';
 export {Bindable} from 'amorphic-bindster';
 export { RouteType, RouteHandlers, Route, Middleware } from './lib/routes/RoutesSetup'
 import {Persistor} from 'persistor';
-import { Handler, ErrorRequestHandler } from 'express';
 
 // This class is for Amorphic unit tests
 export class Amorphic extends Persistor {

@@ -1,3 +1,4 @@
+import { Handler, ErrorRequestHandler } from 'express';
 export type RouteType =  'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
 
 /**
