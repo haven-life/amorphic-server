@@ -180,7 +180,8 @@ export class AmorphicServer {
 
     /**
      * 
-     * @TODO: when registering the middlewares be careful!
+     * Keep in mind when registering the middlewares be careful!
+     * @TODO: when implementing middlewares register error handling from middlewares on APP not ROUTER 
      * https://github.com/expressjs/express/issues/2679
      */
 
