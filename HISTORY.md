@@ -1,3 +1,5 @@
+# 3.1.0
+* Enabling daemon applications to service their own endpoints.
 ## 3.0.0
 * updating persistor module to 2.8.* to pull async API calls change
 * this is a BREAKING change, instead of returning Bluebird promises, persistor is returning native promises

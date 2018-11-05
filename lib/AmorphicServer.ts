@@ -9,6 +9,8 @@ let postRouter = require('./routers/postRouter').postRouter;
 let downloadRouter = require('./routers/downloadRouter').downloadRouter;
 let router = require('./routers/router').router;
 let generateDownloadsDir = require('./utils/generateDownloadsDir').generateDownloadsDir;
+let setupCustomRoutes = require('./setupCustomRoutes').setupCustomRoutes;
+
 let nonObjTemplatelogLevel = 1;
 
 
@@ -157,18 +159,30 @@ export class AmorphicServer {
         if (postSessionInject) {
             postSessionInject.call(null, amorphicRouter);
         }
+        
 
         amorphicRouter.use(router.bind(this, sessions, nonObjTemplatelogLevel, controllers));
         const amorphicPath = '/amorphic';
         server.app.use(`${amorphicPath}`, amorphicRouter);
+
+
+        // setup user routes for a daemon application
+        if (appConfig.appConfig.isDaemon) {
+            let router = setupCustomRoutes(appDirectory, mainApp, express.Router());
+
+            if (router) {
+                server.app.use('/api/', router);
+            }
+        }
+
         appContext.server = server.app.listen(amorphicOptions.port);
     }
 
-/**
- * 
- * @TODO: when registering the middlewares be careful!
- * https://github.com/expressjs/express/issues/2679
- */
+    /**
+     * 
+     * @TODO: when registering the middlewares be careful!
+     * https://github.com/expressjs/express/issues/2679
+     */
 
     /**
     * @TODO: make this a proper class
