@@ -62,11 +62,13 @@ export class AmorphicServer {
             sessionConfig
         };
 
+        /** 
+         * @TODO: Remove generation of downloads directory / all amorphic routes from daemon mode apps
+         *  Or at least refactor how we go about downloads
+         */
+        server.setupAmorphicRouter(options);
         if (appConfig.appConfig.isDaemon) {
             server.setupUserRoutes(appDirectory, mainApp);
-        }
-        else {
-            server.setupAmorphicRouter(options);
         }
 
         AmorphicContext.appContext.server = server.app.listen(AmorphicContext.amorphicOptions.port);
@@ -136,6 +138,7 @@ export class AmorphicServer {
         let reqBodySizeLimit = appConfig.reqBodySizeLimit || '50mb';
         let controllers = {};
         let sessions = {};
+        
         const downloads = generateDownloadsDir();
 
         /** 
@@ -212,7 +215,7 @@ export class AmorphicServer {
 
         amorphicRouter.use(router.bind(null, sessions, nonObjTemplatelogLevel, controllers));
         const amorphicPath = '/amorphic';
-        
+
         this.app.use(`${amorphicPath}`, amorphicRouter);
     }
 
