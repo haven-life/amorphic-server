@@ -34,7 +34,7 @@ type Options = {
 export class AmorphicServer {
     app: express.Express;
 
-    routers: express.Router[];
+    routers: {path: string; router: express.Router}[] = [];
 
     /**
     * Purpose unknown
@@ -217,15 +217,17 @@ export class AmorphicServer {
         const amorphicPath = '/amorphic';
 
         this.app.use(`${amorphicPath}`, amorphicRouter);
+        this.routers.push({path: amorphicPath, router: amorphicRouter});
     }
 
 
     setupUserRoutes(appDirectory, mainApp) {
         // setup user routes for a daemon application
         let router = setupCustomRoutes(appDirectory, mainApp, express.Router());
-
+        let apiPath = '/api/'
         if (router) {
-            this.app.use('/api/', router);
+            this.app.use(apiPath, router);
+            this.routers.push({path: apiPath, router: router});
         }
 
         /**
