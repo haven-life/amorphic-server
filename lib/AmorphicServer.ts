@@ -212,8 +212,8 @@ export class AmorphicServer {
 
         amorphicRouter.use(router.bind(null, sessions, nonObjTemplatelogLevel, controllers));
         const amorphicPath = '/amorphic';
+        
         this.app.use(`${amorphicPath}`, amorphicRouter);
-
     }
 
 
