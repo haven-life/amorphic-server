@@ -20,18 +20,75 @@ import * as express from 'express';
 import * as fs from 'fs';
 import * as compression from 'compression';
 
+
+type Options = {
+    amorphicOptions: any;
+    preSessionInject: any;
+    postSessionInject: any;
+    appList: any;
+    appStartList: any;
+    appDirectory: any;
+    sessionConfig: any;
+}
+
 export class AmorphicServer {
     app: express.Express;
 
+    routers: express.Router[];
 
     /**
-     * @static
-     * @param {string} appDirectory is the directory wher the app is located 
-     * @param {AmorphicServer} server
-     * @returns {express.Express}
-     * @memberof AmorphicServer
-     */
-    static setupStatics(appDirectory: string, app: express.Express): express.Express {
+    * Purpose unknown
+    *
+    * @param preSessionInject - callback before server starts up
+    * @param postSessionInject - callback after server starts up
+    * @param appList - List of strings that are all the apps
+    * @param appStartList - List of strings that have the app names for start
+    * @param appDirectory - Location of the apps folder
+    * @param sessionConfig - Object containing the session config
+    */
+    static createServer(preSessionInject, postSessionInject, appList, appStartList, appDirectory, sessionConfig) {
+        const server = new AmorphicServer(express());
+        const amorphicOptions = AmorphicContext.amorphicOptions;
+        const mainApp = amorphicOptions.mainApp;
+        const appConfig = AmorphicContext.applicationConfig[mainApp];
+
+        const options: Options = {
+            amorphicOptions,
+            preSessionInject,
+            postSessionInject,
+            appList,
+            appStartList,
+            appDirectory,
+            sessionConfig
+        };
+
+        if (appConfig.appConfig.isDaemon) {
+            server.setupUserRoutes(appDirectory, mainApp);
+        }
+        else {
+            server.setupAmorphicRouter(options);
+        }
+
+        AmorphicContext.appContext.server = server.app.listen(AmorphicContext.amorphicOptions.port);
+    }
+
+    /**
+    * @TODO: make this a proper class
+    *
+    * @param {express.Express} app Express server
+    **/
+    constructor(app: express.Express) {
+        this.app = app;
+    }
+
+    /**
+    * @static
+    * @param {string} appDirectory is the directory wher the app is located 
+    * @param {AmorphicServer} server
+    * @returns {express.Express}
+    * @memberof AmorphicServer
+    */
+    setupStatics(appDirectory: string): express.Express {
         //   TODO: Do we actually need these checks?
         let rootSuperType, rootSemotus, rootBindster;
 
@@ -56,21 +113,76 @@ export class AmorphicServer {
             rootBindster = __dirname;
         }
 
-        app.use('/modules/', express.static(`${appDirectory}/node_modules`))
+        this.app.use('/modules/', express.static(`${appDirectory}/node_modules`))
             .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
             .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
             .use('/common/', express.static(`${appDirectory}/apps/common`))
             .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
             .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`));
 
-        return app;
+        return this.app;
     }
 
-    static setupDefaultRouter(sessionConfig, reqBodySizeLimit: string, postSessionInject, amorphicServer: AmorphicServer) {
+    setupAmorphicRouter(options: Options) {
+        let { amorphicOptions,
+            preSessionInject,
+            postSessionInject,
+            appList,
+            appStartList,
+            appDirectory,
+            sessionConfig } = options;
+        const mainApp = amorphicOptions.mainApp;
+        let appConfig = AmorphicContext.applicationConfig[mainApp];
+        let reqBodySizeLimit = appConfig.reqBodySizeLimit || '50mb';
         let controllers = {};
         let sessions = {};
         const downloads = generateDownloadsDir();
 
+        /** 
+         * @TODO: make compression only process on amorphic specific routes
+         */
+        if (amorphicOptions.compressXHR) {
+            this.app.use(compression());
+        }
+
+        /** 
+        * @TODO: Stop exposing this.app through presessionInject and postSessionInject
+        *   Only pass in router instead of app
+        */
+        if (preSessionInject) {
+            preSessionInject.call(null, this.app);
+        }
+
+        let appPaths: string[] = [];
+
+        /**
+         * @TODO: seperate out /appName/ routes to their own expressRouter objects
+         * Candidate for future deprecation because we only run app at a time
+         */
+        for (let appName in appList) {
+            if (appStartList.includes(appName)) {
+
+                let appPath = `${appDirectory}/${appList[appName]}/public`;
+                appPaths.push(appPath);
+
+                this.app.use(`/${appName}/`, express.static(appPath, { index: 'index.html' }));
+
+                if (appName === mainApp) {
+                    this.app.use('/', express.static(appPath, { index: 'index.html' }));
+                }
+
+                logMessage(`${appName} connected to ${appPath}`);
+            }
+        }
+
+        /**
+        *  Setting up the general statics
+        */
+        this.setupStatics(appDirectory);
+
+        /**
+         *  Setting up the different middlewares for amorphic
+         */
         const cookieMiddleware = cookieParser();
         const expressSesh = expressSession(sessionConfig);
         const bodyLimitMiddleWare = express.json({
@@ -100,97 +212,25 @@ export class AmorphicServer {
 
         amorphicRouter.use(router.bind(null, sessions, nonObjTemplatelogLevel, controllers));
         const amorphicPath = '/amorphic';
-        amorphicServer.app.use(`${amorphicPath}`, amorphicRouter);
+        this.app.use(`${amorphicPath}`, amorphicRouter);
 
     }
 
-    /**
-    * Purpose unknown
-    *
-    * @param preSessionInject - callback before server starts up
-    * @param postSessionInject - callback after server starts up
-    * @param appList - List of strings that are all the apps
-    * @param appStartList - List of strings that have the app names for start
-    * @param appDirectory - Location of the apps folder
-    * @param sessionConfig - Object containing the session config
-    */
-    static createServer(preSessionInject, postSessionInject, appList, appStartList, appDirectory, sessionConfig) {
 
-        let amorphicOptions = AmorphicContext.amorphicOptions;
-        let mainApp = amorphicOptions.mainApp;
-        let appContext = AmorphicContext.appContext;
-        let appConfig = AmorphicContext.applicationConfig[mainApp];
-        let reqBodySizeLimit = appConfig.reqBodySizeLimit || '50mb';
-        let server = new AmorphicServer(express());
-
-        if (amorphicOptions.compressXHR) {
-            server.app.use(compression());
-        }
-
-        if (preSessionInject) {
-            preSessionInject.call(null, server.app);
-        }
-
-        let appPaths: string[] = [];
-
-        /**
-         * Candidate for future deprecation because we only run app at a time
-         */
-        for (let appName in appList) {
-            if (appStartList.includes(appName)) {
-
-                let appPath = `${appDirectory}/${appList[appName]}/public`;
-                appPaths.push(appPath);
-
-                server.app.use(`/${appName}/`, express.static(appPath, { index: 'index.html' }));
-
-                if (appName === mainApp) {
-                    server.app.use('/', express.static(appPath, { index: 'index.html' }));
-                }
-
-                logMessage(`${appName} connected to ${appPath}`);
-            }
-        }
-
-
-        /**
-        *  Setting up the general statics
-        */
-
-        AmorphicServer.setupStatics(appDirectory, server.app);
-
-        /**
-         *  Setting up the different middlewares for amorphic
-         */
-        AmorphicServer.setupDefaultRouter(sessionConfig, reqBodySizeLimit, postSessionInject, server);
-
-
+    setupUserRoutes(appDirectory, mainApp) {
         // setup user routes for a daemon application
-        if (appConfig.appConfig.isDaemon) {
-            let router = setupCustomRoutes(appDirectory, mainApp, express.Router());
+        let router = setupCustomRoutes(appDirectory, mainApp, express.Router());
 
-            if (router) {
-                server.app.use('/api/', router);
-            }
+        if (router) {
+            this.app.use('/api/', router);
         }
 
-        appContext.server = server.app.listen(amorphicOptions.port);
+        /**
+        *   
+        * Keep in mind when registering the middlewares be careful!
+        * @TODO: when implementing middlewares register error handling from middlewares on APP not ROUTER 
+        * https://github.com/expressjs/express/issues/2679
+        */
     }
 
-    /**
-     * 
-     * Keep in mind when registering the middlewares be careful!
-     * @TODO: when implementing middlewares register error handling from middlewares on APP not ROUTER 
-     * https://github.com/expressjs/express/issues/2679
-     */
-
-    /**
-    * @TODO: make this a proper class
-    *
-    * @param {express.Express} app Express server
-    *
-    **/
-    constructor(app: express.Express) {
-        this.app = app;
-    }
 }
