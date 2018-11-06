@@ -66,6 +66,44 @@ export class AmorphicServer {
         return app;
     }
 
+    static setupDefaultRouter(sessionConfig, reqBodySizeLimit: string, postSessionInject, amorphicServer: AmorphicServer) {
+        let controllers = {};
+        let sessions = {};
+        const downloads = generateDownloadsDir();
+
+        const cookieMiddleware = cookieParser();
+        const expressSesh = expressSession(sessionConfig);
+        const bodyLimitMiddleWare = express.json({
+            limit: reqBodySizeLimit
+        });
+
+        const urlEncodedMiddleWare = express.urlencoded({
+            extended: true
+        });
+
+        const amorphicRouter: express.Router = express.Router();
+
+        amorphicRouter.use(initializePerformance);
+        amorphicRouter.use(cookieMiddleware)
+            .use(expressSesh)
+            .use(uploadRouter.bind(null, downloads))
+            .use(downloadRouter.bind(null, sessions, controllers, nonObjTemplatelogLevel))
+            .use(bodyLimitMiddleWare)
+            .use(urlEncodedMiddleWare)
+            .use(postRouter.bind(null, sessions, controllers, nonObjTemplatelogLevel))
+            .use(amorphicEntry.bind(null, sessions, controllers, nonObjTemplatelogLevel));
+
+        if (postSessionInject) {
+            postSessionInject.call(null, amorphicRouter);
+        }
+
+
+        amorphicRouter.use(router.bind(null, sessions, nonObjTemplatelogLevel, controllers));
+        const amorphicPath = '/amorphic';
+        amorphicServer.app.use(`${amorphicPath}`, amorphicRouter);
+
+    }
+
     /**
     * Purpose unknown
     *
@@ -78,17 +116,12 @@ export class AmorphicServer {
     */
     static createServer(preSessionInject, postSessionInject, appList, appStartList, appDirectory, sessionConfig) {
 
-        let controllers = {};
-        let sessions = {};
-
         let amorphicOptions = AmorphicContext.amorphicOptions;
         let mainApp = amorphicOptions.mainApp;
         let appContext = AmorphicContext.appContext;
         let appConfig = AmorphicContext.applicationConfig[mainApp];
         let reqBodySizeLimit = appConfig.reqBodySizeLimit || '50mb';
         let server = new AmorphicServer(express());
-
-        const downloads = generateDownloadsDir();
 
         if (amorphicOptions.compressXHR) {
             server.app.use(compression());
@@ -126,41 +159,10 @@ export class AmorphicServer {
 
         AmorphicServer.setupStatics(appDirectory, server.app);
 
-
         /**
          *  Setting up the different middlewares for amorphic
          */
-
-        let cookieMiddleware = cookieParser();
-        let expressSesh = expressSession(sessionConfig);
-        let bodyLimitMiddleWare = express.json({
-            limit: reqBodySizeLimit
-        });
-
-        let urlEncodedMiddleWare = express.urlencoded({
-            extended: true
-        });
-
-        const amorphicRouter: express.Router = express.Router();
-
-        amorphicRouter.use(initializePerformance);
-        amorphicRouter.use(cookieMiddleware)
-            .use(expressSesh)
-            .use(uploadRouter.bind(null, downloads))
-            .use(downloadRouter.bind(null, sessions, controllers, nonObjTemplatelogLevel))
-            .use(bodyLimitMiddleWare)
-            .use(urlEncodedMiddleWare)
-            .use(postRouter.bind(null, sessions, controllers, nonObjTemplatelogLevel))
-            .use(amorphicEntry.bind(null, sessions, controllers, nonObjTemplatelogLevel));
-
-        if (postSessionInject) {
-            postSessionInject.call(null, amorphicRouter);
-        }
-        
-
-        amorphicRouter.use(router.bind(null, sessions, nonObjTemplatelogLevel, controllers));
-        const amorphicPath = '/amorphic';
-        server.app.use(`${amorphicPath}`, amorphicRouter);
+        AmorphicServer.setupDefaultRouter(sessionConfig, reqBodySizeLimit, postSessionInject, server);
 
 
         // setup user routes for a daemon application
