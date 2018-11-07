@@ -60,8 +60,8 @@
     "test:example": "mocha test/example",
     "test-d": "istanbul cover _mocha -- test/daemon/* -R spec",
     "test-da": "istanbul cover _mocha -- test/daemon_auto/* -R spec",
-    "test:ts": "mocha -r ts-node/register --project typescript_tests/tsconfig.test.json typescript_tests/unittest.ts",
-    "test:ts:debug": "tsc && mocha --inspect-brk typescript_tests/unittest.js"
+    "test:ts": "mocha -r ts-node/register --project typescript_tests/tsconfig.test.json typescript_tests/daemon_app/unittest.ts",
+    "test:ts:debug": "tsc --project typescript_tests/daemon_app/tsconfig.test.json && mocha dist_test/typescript_tests/daemon_app/unittest.js"
   },
   "directories": {},
   "engines": {
