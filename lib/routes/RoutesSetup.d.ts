@@ -1,5 +1,5 @@
 import { Handler, ErrorRequestHandler } from 'express';
-export type RouteType =  'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
+export enum RouteType {  GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD }
 
 /**
 * @member HTTPMethod - array of RouteTypes (get, post) depending on what you want the route to do.
@@ -16,11 +16,11 @@ export interface RouteHandlers {
  * Route interface. Should be exported in apps/<app_name>/server/middlewares/index.ts
  * 
  * @member path - path for this route
- * @member handlers - array of RouteHandlers
+ * @member handlers - array of subRoutes (for nested Routes) and RouteHandlers
  */
 export interface Route {
     path: string;
-    handlers: RouteHandlers[];
+    handlers: (Route | RouteHandlers)[];
 }
 
 /**
