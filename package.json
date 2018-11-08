@@ -52,7 +52,7 @@
     "test:example": "mocha test/example",
     "test-d": "istanbul cover _mocha -- test/daemon/* -R spec",
     "test-da": "istanbul cover _mocha -- test/daemon_auto/* -R spec",
-    "test:ts": "mocha -r ts-node/register typescript_tests/unittest.ts",
+    "test:ts": "mocha -r ts-node/register typescript_tests/*/test.ts",
     "debug:test:ts": "tsc && mocha --inspect-brk typescript_tests/unittest.js"
   },
   "directories": {},

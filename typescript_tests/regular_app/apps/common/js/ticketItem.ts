@@ -1,7 +1,6 @@
-import {Supertype, supertypeClass, property, Remoteable, Persistable}  from '../../../../index.js';
+import {Supertype, supertypeClass, property, Remoteable, Persistable}  from '../../../../../index.js';
 import {Person} from './person';
 import {Ticket} from './ticket';
-console.log("Compiling TicketItem");
 
 @supertypeClass
 export class TicketItem extends Persistable(Remoteable(Supertype)) {

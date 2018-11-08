@@ -1,4 +1,4 @@
-import {Supertype, supertypeClass, property, remote} from '../../../../index.js';
+import { property } from '../../../../../index.js';
 import {Person} from './person';
 
 export type Constructable<BC> = new (...args: any[]) => BC;
