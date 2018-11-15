@@ -10,6 +10,7 @@ let downloadRouter = require('./routers/downloadRouter').downloadRouter;
 let router = require('./routers/router').router;
 let generateDownloadsDir = require('./utils/generateDownloadsDir').generateDownloadsDir;
 let setupCustomRoutes = require('./setupCustomRoutes').setupCustomRoutes;
+let setupCustomMiddlewares = require('./setupCustomMiddlewares').setupCustomMiddlewares;
 
 let nonObjTemplatelogLevel = 1;
 
@@ -62,13 +63,13 @@ export class AmorphicServer {
             sessionConfig
         };
 
-        /** 
+        /*
          * @TODO: Remove generation of downloads directory / all amorphic routes from daemon mode apps
          *  Or at least refactor how we go about downloads
          */
         server.setupAmorphicRouter(options);
         if (appConfig.appConfig.isDaemon) {
-            server.setupUserRoutes(appDirectory, mainApp);
+            server.setupUserEndpoints(appDirectory, mainApp);
         }
 
         AmorphicContext.appContext.server = server.app.listen(AmorphicContext.amorphicOptions.port);
@@ -141,14 +142,14 @@ export class AmorphicServer {
         
         const downloads = generateDownloadsDir();
 
-        /** 
+        /*
          * @TODO: make compression only process on amorphic specific routes
          */
         if (amorphicOptions.compressXHR) {
             this.app.use(compression());
         }
 
-        /** 
+        /*
         * @TODO: Stop exposing this.app through presessionInject and postSessionInject
         *   Only pass in router instead of app
         */
@@ -158,7 +159,7 @@ export class AmorphicServer {
 
         let appPaths: string[] = [];
 
-        /**
+        /*
          * @TODO: seperate out /appName/ routes to their own expressRouter objects
          * Candidate for future deprecation because we only run app at a time
          */
@@ -178,12 +179,12 @@ export class AmorphicServer {
             }
         }
 
-        /**
+        /*
         *  Setting up the general statics
         */
         this.setupStatics(appDirectory);
 
-        /**
+        /*
          *  Setting up the different middlewares for amorphic
          */
         const cookieMiddleware = cookieParser();
@@ -220,11 +221,12 @@ export class AmorphicServer {
         this.routers.push({path: amorphicPath, router: amorphicRouter});
     }
 
+    setupUserEndpoints(appDirectory, mainApp) {
 
-    setupUserRoutes(appDirectory, mainApp) {
-        // setup user routes for a daemon application
-        let router = setupCustomRoutes(appDirectory, mainApp, express.Router());
-        let apiPath = '/api/'
+        let router = setupCustomMiddlewares(appDirectory, mainApp, express.Router());
+        router = setupCustomRoutes(appDirectory, mainApp, router);
+
+        let apiPath = '/api';
         if (router) {
             this.app.use(apiPath, router);
             this.routers.push({path: apiPath, router: router});
