@@ -79,6 +79,15 @@ describe('Run amorphic as a deamon', function() {
             });
     });
 
+    it('should get a response from a second custom endpoint', function() {
+        return axios.get('http://localhost:3001/api/test_other_endpoint')
+            .then(function(response) {
+                assert.isOk(response, 'The response is ok');
+                assert.strictEqual(response.status, 200, 'The response code was 200');
+                assert.strictEqual(response.data, 'test API endpoint OK');
+            });
+    });
+
     after(function(done) {
         // Clean up server
         if(amorphicContext.appContext.server){
