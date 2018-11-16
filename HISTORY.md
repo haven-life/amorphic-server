@@ -1,4 +1,4 @@
-# 3.1.0
+# 4.0.0
 * Enabling daemon applications to service their own endpoints.
 ## 3.0.0
 * updating persistor module to 2.8.* to pull async API calls change
