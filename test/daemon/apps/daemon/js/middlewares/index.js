@@ -4,7 +4,7 @@ let express = require('express');
 
 function exampleMiddleware(expressRouter) {
     expressRouter.use(express.json({
-        limit: '1000mb'
+        limit: '10b'
     }));
 
     return expressRouter;

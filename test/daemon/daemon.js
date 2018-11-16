@@ -75,7 +75,7 @@ describe('Run amorphic as a deamon', function() {
             .then(function(response) {
                 assert.isOk(response, 'The response is ok');
                 assert.strictEqual(response.status, 200, 'The response code was 200');
-                assert.strictEqual(response.data.responseString, 'test API endpoint OK');
+                assert.strictEqual(response.data, 'test API endpoint OK');
             });
     });
 
@@ -84,7 +84,7 @@ describe('Run amorphic as a deamon', function() {
             .then(function(response) {
                 assert.isOk(response, 'The response is ok');
                 assert.strictEqual(response.status, 200, 'The response code was 200');
-                assert.strictEqual(response.data.responseString, 'test API endpoint OK');
+                assert.strictEqual(response.data, 'test API endpoint OK');
             });
     });
 
@@ -92,15 +92,17 @@ describe('Run amorphic as a deamon', function() {
         return axios.post('http://localhost:3001/api/middleware-endpoint', {
             firstName: 'Fred',
             lastName: 'Flintstone'
-        }).catch(function(response) {
+        })
+        .catch(function(response) {
             assert.strictEqual(response.response.status, 413, 'The response code was 413');
         });
     });
 
     it('should post to the endpoint successfully', function() {
-        return axios.post('http://localhost:3001/api/middleware-endpoint', {}).then(function(response) {
-            assert.strictEqual(response.status, 200, 'The response code was 200');
-        });
+        return axios.post('http://localhost:3001/api/middleware-endpoint', {})
+            .then(function(response) {
+                assert.strictEqual(response.status, 200, 'The response code was 200');
+            });
     });
 
     after(function(done) {

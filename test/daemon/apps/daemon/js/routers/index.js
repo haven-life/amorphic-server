@@ -19,18 +19,14 @@ function middlewareTestEndpoint(expressRouter) {
 
 
 function testService (_req, res) {
-    res.status(200).send({
-        responseString: 'test API endpoint OK'
-    });
+    res.status(200).send('test API endpoint OK');
 }
 
 function middlewareTestService (req, res) {
     if (!req.body) {
         res.status(500).send('Error: no body');
     } else {
-        res.status(200).send({
-            responseString: 'test API endpoint OK'
-        });
+        res.status(200).send('test API endpoint OK');
     }
 }
 
