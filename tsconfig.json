@@ -1,6 +1,7 @@
 {
   "include": [
-    "./lib/AmorphicServer.ts"
+    "./lib/AmorphicServer.ts",
+    "./lib/CustomMiddleWare.ts"
   ],
   "compilerOptions": {
     "module": "commonjs",

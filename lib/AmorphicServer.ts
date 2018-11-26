@@ -9,8 +9,7 @@ let postRouter = require('./routers/postRouter').postRouter;
 let downloadRouter = require('./routers/downloadRouter').downloadRouter;
 let router = require('./routers/router').router;
 let generateDownloadsDir = require('./utils/generateDownloadsDir').generateDownloadsDir;
-let setupCustomRoutes = require('./setupCustomRoutes').setupCustomRoutes;
-let setupCustomMiddlewares = require('./setupCustomMiddlewares').setupCustomMiddlewares;
+import {CustomMiddleware} from './CustomMiddleware';
 
 let nonObjTemplatelogLevel = 1;
 
@@ -223,21 +222,14 @@ export class AmorphicServer {
 
     setupUserEndpoints(appDirectory, mainApp) {
 
-        let router = setupCustomMiddlewares(appDirectory, mainApp, express.Router());
-        router = setupCustomRoutes(appDirectory, mainApp, router);
+        let router = CustomMiddleware.setupMiddlewares(appDirectory, mainApp, express.Router());
+        router = CustomMiddleware.setupRouters(appDirectory, mainApp, router);
 
         let apiPath = '/api';
         if (router) {
             this.app.use(apiPath, router);
             this.routers.push({path: apiPath, router: router});
         }
-
-        /**
-        *   
-        * Keep in mind when registering the middlewares be careful!
-        * @TODO: when implementing middlewares register error handling from middlewares on APP not ROUTER 
-        * https://github.com/expressjs/express/issues/2679
-        */
     }
 
 }
