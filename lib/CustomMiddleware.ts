@@ -1,7 +1,10 @@
 import * as fs from 'fs';
 import * as express from 'express';
+import {Router, Middleware, ErrorMiddleware, GenericMiddleware} from './RoutesSetup';
 
 export namespace CustomMiddleware {
+
+    const apiPath = '/api'; 
 
     /**
     *   
@@ -9,6 +12,38 @@ export namespace CustomMiddleware {
     * @TODO: when implementing middlewares register error handling from middlewares on APP not ROUTER 
     * https://github.com/expressjs/express/issues/2679
     */
+
+    /**
+     * Registers middlewares directly on the app object
+     * 
+     * @param indexPath - string path for location of middlewares file
+     * @param app - App object to register middlewares to 
+     */
+    export function registerMiddlewares(indexPath: string, app: express.Express) {
+        if (fs.existsSync(indexPath)) {
+            const middlewares: {[key: string]: Middleware} = require(indexPath);
+
+            Object.entries(middlewares).forEach(([_, middleware]) => {
+                
+                // Use the path given, otherwise default
+                const path = middleware.path ? `${apiPath}${middleware.path}` : apiPath;
+
+                if (isGenericMiddleware(middleware)) {
+                    middleware.callbacks.forEach(handler => {
+                        app.use(path, handler)
+                    });
+                }
+                else {
+                    app.use(path, middleware.errorCallback);
+                }
+            });
+        }
+        else {
+            console.info(`No custom middlewares found to process.`);
+        }
+    }
+
+
     export function setupMiddlewares(appDirectory, mainAppName, router) {
         const middlewareFilePath = appDirectory + '/apps/' + mainAppName + '/js/middlewares/index.js';
 
@@ -21,6 +56,7 @@ export namespace CustomMiddleware {
         return setupHelper(routerFilePath, true, router);
     }
 }
+
 
 function setupHelper(path: string, isRouter: boolean, router: express.Router) {
     let middlewares;
@@ -52,4 +88,12 @@ function setupHelper(path: string, isRouter: boolean, router: express.Router) {
         return router;
     }
 
+}
+
+function isErrorMiddleware(middleware: Middleware): middleware is ErrorMiddleware {
+    return (<ErrorMiddleware>middleware).errorCallback !== undefined;
+}
+
+function isGenericMiddleware(middleware: Middleware): middleware is GenericMiddleware {
+    return (<GenericMiddleware>middleware).callbacks !== undefined;
 }
