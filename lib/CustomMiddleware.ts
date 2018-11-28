@@ -24,7 +24,6 @@ export namespace CustomMiddleware {
             const middlewares: {[key: string]: Middleware} = require(indexPath);
 
             Object.entries(middlewares).forEach(([_, middleware]) => {
-                
                 // Use the path given, otherwise default
                 const path = middleware.path ? `${apiPath}${middleware.path}` : apiPath;
 

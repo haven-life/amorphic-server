@@ -222,8 +222,11 @@ export class AmorphicServer {
 
     setupUserEndpoints(appDirectory, mainApp) {
 
-        let router = CustomMiddleware.setupMiddlewares(appDirectory, mainApp, express.Router());
-        router = CustomMiddleware.setupRouters(appDirectory, mainApp, router);
+        // let router = CustomMiddleware.setupMiddlewares(appDirectory, mainApp, express.Router());
+        const middlewarePath = appDirectory + '/apps/' + mainApp + '/js/middlewares/index.js';
+        CustomMiddleware.registerMiddlewares(middlewarePath, this.app);
+
+        let router = CustomMiddleware.setupRouters(appDirectory, mainApp, express.Router());
 
         let apiPath = '/api';
         if (router) {

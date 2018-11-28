@@ -1,7 +1,8 @@
 {
   "include": [
     "./lib/AmorphicServer.ts",
-    "./lib/CustomMiddleWare.ts"
+    "./lib/CustomMiddleWare.ts",
+    "./lib/RoutesSetup.ts"
   ],
   "compilerOptions": {
     "module": "commonjs",

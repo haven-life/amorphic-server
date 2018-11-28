@@ -2,14 +2,10 @@
 
 let express = require('express');
 
-function exampleMiddleware(expressRouter) {
-    expressRouter.use(express.json({
-        limit: '10b'
-    }));
-
-    return expressRouter;
-}
+let jsonBlob = {
+    callbacks: [express.json({limit: '10b'})]
+};
 
 module.exports = {
-    exampleMiddleware: exampleMiddleware
-};
+    expressJson: jsonBlob
+}
