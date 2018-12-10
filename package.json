@@ -47,7 +47,7 @@
   "scripts": {
     "build": "npm run recreateDist && npm run copy && npm run compile",
     "compile": "tsc -p ./tsconfig.json",
-    "compile:amorphic:tests": "tsc -p ./typescript_tests/tsconfig.test.json",
+    "compile:amorphic:tests": "tsc -p ./typescript_tests/tsconfig.json",
     "copy": "cp *.js ./dist && cp index.* ./dist && cp -r ./lib ./dist && rm ./dist/lib/*.ts",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
@@ -60,7 +60,7 @@
     "test:example": "mocha test/example",
     "test-d": "istanbul cover _mocha -- test/daemon/* -R spec",
     "test-da": "istanbul cover _mocha -- test/daemon_auto/* -R spec",
-    "test:ts": "mocha -r ts-node/register --project typescript_tests/tsconfig.test.json typescript_tests/unittest.ts",
+    "test:ts": "mocha -r ts-node/register --project typescript_tests/tsconfig.json typescript_tests/daemon/daemon.ts",
     "test:ts:debug": "tsc && mocha --inspect-brk typescript_tests/unittest.js"
   },
   "directories": {},

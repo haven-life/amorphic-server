@@ -14,9 +14,5 @@
         ],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
-    },
-    "include": [
-        "./unittest",
-        "./apps"
-    ]
+    }
 }
