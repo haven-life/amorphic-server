@@ -1,7 +1,6 @@
 export {Supertype} from 'supertype';
 export {Persistable, ContainsPersistable, Persistor} from 'persistor';
 export {Remoteable, amorphicStatic} from './lib/utils/remoteable';
-export {Bindable} from 'amorphic-bindster';
 export { RouteType, RouteHandlers, Route, Middleware } from './lib/routes/RoutesSetup'
 import {Persistor} from 'persistor';
 
