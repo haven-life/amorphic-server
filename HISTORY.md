@@ -1,4 +1,4 @@
-## 4.0.0-beta
+## 4.0.0
 * Enabling daemon applications to service their own endpoints.
 ## 3.1.0
 * Updating supertype to 3.1.0, adding a public api to allow customization of supertype's logging functionality
