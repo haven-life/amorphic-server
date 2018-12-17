@@ -30,7 +30,15 @@ function establishInitialServerSession(req, controllerPath, initObjectTemplate, 
     let prop = match[2];
 
     // Create a new unique object template utility
-    let persistableSemotableTemplate = persistor(null, null, semotus);
+    let persistableSemotableTemplate;
+
+    if(semotus) {
+        persistableSemotableTemplate = persistor(null, null, semotus);
+    }
+    else {
+        throw new Error('ERROR: Semotus not found. Cannot call establishInitialServerSession if this is a daemon app');
+    }
+    
     persistableSemotableTemplate.lazyTemplateLoad = config.appConfig.lazyTemplateLoad;
 
     // Inject into it any db or persist attributes needed for application

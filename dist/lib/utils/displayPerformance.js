@@ -8,7 +8,14 @@ let Semotus = require('semotus');
  * @param {unknown} req unknown
  */
 function displayPerformance(req) {
-    let logger = Semotus.createLogger();
+    let logger;
+
+    if(Semotus) {
+        logger = Semotus.createLogger();
+    }
+    else {
+        throw new Error('ERROR: Semotus not found. Cannot call displayPerformance if this is a daemon app');
+    }
 
     logger.setContextProps(req.amorphicTracking.loggingContext);
 

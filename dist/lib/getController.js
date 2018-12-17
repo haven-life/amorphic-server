@@ -92,8 +92,14 @@ function getController(path, controllerPath, initObjectTemplate, expressSession,
     let prefix = matches[1];
     let prop = matches[2];
 
+    let persistableSemotableTemplate;
     // Create a new unique object template utility
-    let persistableSemotableTemplate = persistor(null, null, semotus);
+    if(semotus) {
+        persistableSemotableTemplate = persistor(null, null, semotus);
+    }
+    else {
+        throw new Error('ERROR: Semotus not found. Cannot call getController if this is a daemon app');
+    }
     persistableSemotableTemplate.lazyTemplateLoad = config.appConfig.lazyTemplateLoad;
 
     if (config.appConfig.templateMode === 'typescript') {

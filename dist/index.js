@@ -36,7 +36,9 @@ let typescript = require('./lib/typescript');   // Only used for the typescript 
 let AmorphicContext = require('./lib/AmorphicContext');
 
 // TODO: This should be a default set in Semotus
-Semotus.maxCallTime = 60 * 1000; // Max time for call interlock
+if(Semotus) { 
+    Semotus.maxCallTime = 60 * 1000; // Max time for call interlock
+}
 
 // TODO: Figure out what this does
 // Typescript standard extends helper
@@ -107,23 +109,11 @@ function Remoteable (Base) {
         return classOne;
     }(Base));
 }
-function Bindable (Base) {
-	return (function n(_super) {
-		__extends(classOne, _super);
-
-		function classOne() {
-			return _super !== null && _super.apply(this, arguments) || this;
-		}
-
-		return classOne;
-	}(Base));
-}
 
 let toExport = {
     getTemplates: getTemplates,
     listen: listen,
     Remoteable: Remoteable,
-	Bindable: Bindable,
     Persistable: Persistor.Persistable,
     Persistor: Persistor.Persistor
     // Additional decorators added here by the subsequent bindDecorators call

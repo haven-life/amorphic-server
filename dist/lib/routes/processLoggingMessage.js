@@ -19,7 +19,14 @@ function processLoggingMessage(req, res) {
     let path = url.parse(req.originalUrl, true).query.path;
     let session = req.session;
     let message = req.body;
-    let persistableSemotableTemplate = persistor(null, null, semotus);
+    let persistableSemotableTemplate;
+
+    if(semotus) {
+        persistableSemotableTemplate = persistor(null, null, semotus);
+    }
+    else {
+        throw new Error('ERROR: Semotus not found. Cannot call processLoggingMessage if this is a daemon app');
+    }
 
     if (!session.semotus) {
         session.semotus = {controllers: {}, loggingContext: {}};
