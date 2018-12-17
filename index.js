@@ -36,7 +36,9 @@ let typescript = require('./lib/typescript');   // Only used for the typescript 
 let AmorphicContext = require('./lib/AmorphicContext');
 
 // TODO: This should be a default set in Semotus
-Semotus.maxCallTime = 60 * 1000; // Max time for call interlock
+if(Semotus) { 
+    Semotus.maxCallTime = 60 * 1000; // Max time for call interlock
+}
 
 // TODO: Figure out what this does
 // Typescript standard extends helper
