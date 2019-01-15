@@ -95,21 +95,21 @@ export class AmorphicServer {
         //   TODO: Do we actually need these checks?
         let rootSuperType, rootSemotus, rootBindster;
 
-        if (fs.existsSync(`${appDirectory}/node_modules/supertype`)) {
+        if (fs.existsSync(`${appDirectory}/node_modules/@havenlife/supertype`)) {
             rootSuperType = appDirectory;
         }
         else {
             rootSuperType = __dirname;
         }
 
-        if (fs.existsSync(`${appDirectory}/node_modules/semotus`)) {
+        if (fs.existsSync(`${appDirectory}/node_modules/@havenlife/semotus`)) {
             rootSemotus = appDirectory;
         }
         else {
             rootSemotus = __dirname
         }
 
-        if (fs.existsSync(`${appDirectory}/node_modules/amorphic-bindster`)) {
+        if (fs.existsSync(`${appDirectory}/node_modules/@havenlife/amorphic-bindster`)) {
             rootBindster = appDirectory;
         }
         else {
@@ -117,11 +117,11 @@ export class AmorphicServer {
         }
 
         this.app.use('/modules/', express.static(`${appDirectory}/node_modules`))
-            .use('/bindster/', express.static(`${rootBindster}/node_modules/amorphic-bindster`))
-            .use('/amorphic/', express.static(`${appDirectory}/node_modules/amorphic`))
+            .use('/bindster/', express.static(`${rootBindster}/node_modules/@havenlife/amorphic-bindster`))
+            .use('/amorphic/', express.static(`${appDirectory}/node_modules/@havenlife/amorphic`))
             .use('/common/', express.static(`${appDirectory}/apps/common`))
-            .use('/supertype/', express.static(`${rootSuperType}/node_modules/supertype`))
-            .use('/semotus/', express.static(`${rootSemotus}/node_modules/semotus`));
+            .use('/supertype/', express.static(`${rootSuperType}/node_modules/@havenlife/supertype`))
+            .use('/semotus/', express.static(`${rootSemotus}/node_modules/@havenlife/semotus`));
 
         return this.app;
     }
