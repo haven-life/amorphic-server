@@ -1,0 +1,9 @@
+{
+    "sessionSeconds" : 3600,
+    "objectCacheSeconds" : 600,
+    "sessionSecret" : "Ey0veeljPcLsHitdxCG2",
+    "applications" : {
+        "daemon": "apps/daemon_secure"
+    },
+    "application"  : "daemon_secure"
+}

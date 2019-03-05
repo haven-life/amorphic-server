@@ -1,3 +1,5 @@
+## 4.1.0
+* Adding config for the servers for daemon mode and enabling https. Also removing the amorphic routes for daemon applications. Now you can specify express options in the form 'serverOptions' in your app level config. This is used for HTTPS configuration.
 ## 4.0.0
 * Enabling daemon applications to service their own endpoints.
 ## 3.1.0
