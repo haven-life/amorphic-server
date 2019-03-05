@@ -38,37 +38,6 @@ describe('Run amorphic as a deamon', function() {
         assert.strictEqual(daemonController.virtualProp, 'I am virtual', 'Can use virutal props');
     });
 
-    it('can download a file', function() {
-        return new Bluebird(function(resolve, reject) {
-            try {
-                resolve(fs.readFileSync(__dirname + '/./apps/daemon/js/DownloadTest.txt'));
-            }
-            catch (e) {
-                reject(e);
-            }
-        })
-            .then(function(fileData) {
-                return axios.get('http://localhost:3001/amorphic/xhr?path=daemon&file=DownloadTest.txt')
-                    .then(function(response) {
-                        assert.isOk(response, 'The response is ok');
-                        assert.strictEqual(response.status, 200, 'The response code was 200');
-                        assert.strictEqual(response.data, fileData.toString(), 'The file data matches');
-                    });
-            });
-    });
-
-    it('should 404 when the file is not there', function() {
-        return axios.get('http://localhost:3001/amorphic/xhr?path=daemon&file=NotFound.txt')
-            .then(function() {
-                assert.isNotOk('To be here');
-            })
-            .catch(function(response) {
-                assert.isOk(response, 'The error response is ok');
-                assert.strictEqual(response.message, 'Request failed with status code 404', 'The response message was correct');
-                assert.strictEqual(response.response.status, 404, 'The response code was 404');
-                assert.strictEqual(response.response.data, 'Not found', 'The error data matches');
-            });
-    });
 
     it('should get an 200 response from a custom GET endpoint', function() {
         return axios.get('http://localhost:3001/api/test')
