@@ -44,7 +44,7 @@ describe('Run amorphic as secure daemon', function() {
     });
     
     it('should have the appropriate server details', function() {
-        assert.strictEqual(JSON.stringify(amorphicContext.appContext.secureServer.address()), 'daemon_secure', 'The app name was correct in express');
+        assert.strictEqual(amorphicContext.appContext.secureServer.address().port, 8443, 'The express server correctly gets the port');
     });
 
     it('should have the appropriate server options', function() {
