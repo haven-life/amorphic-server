@@ -504,7 +504,7 @@ amorphic = // Needs to be global to make mocha tests work
             else {
                 console.log('Error: ' + message.type + ' ' + message.name + ' status: ' + status + ' - ' + statusText);
 
-                if ((status == 503 || status == 0) && --retries) {
+                if ((status == 500 || status == 502 || status == 503 || status == 504 || status == 0) && --retries) {
                     console.log('temporary error retrying in ' + retryInterval / 1000 + ' seconds');
 
                     setTimeout(function () {
