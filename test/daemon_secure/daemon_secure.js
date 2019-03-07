@@ -44,14 +44,14 @@ describe('Run amorphic as secure daemon', function() {
     });
     
     it('should have the appropriate server details', function() {
-        assert.strictEqual(amorphicContext.appContext.secureServer, 'daemon_secure', 'The app name was correct in express');
+        assert.strictEqual(amorphicContext.appContext.secureServer.address(), 'daemon_secure', 'The app name was correct in express');
     });
 
     it('should have the appropriate server options', function() {
         assert.strictEqual(amorphicContext.appContext.expressApp.locals.name, 'daemon_secure', 'The app name was correct in express');
         assert.strictEqual(amorphicContext.appContext.expressApp.locals.version, '1', 'The version was correct in express');
         assert.strictEqual(amorphicContext.applicationConfig['daemon_secure'].appConfig.serverOptions.ca, 'none', 'The certificate authority config was correct');
-        assert.strictEqual(amorphicContext.applicationConfig['daemon_secure'].appConfig.serverOptions.securePort, '8443', 'The secure port was correct');
+        assert.strictEqual(amorphicContext.applicationConfig['daemon_secure'].appConfig.serverOptions.securePort, 8443, 'The secure port was correct');
     });
 
     after(function(done) {
