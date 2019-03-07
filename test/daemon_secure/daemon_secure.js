@@ -7,7 +7,7 @@ let fs = require('fs');
 let path = require('path');
 let amorphicContext = require('../../dist/lib/AmorphicContext');
 
-describe('Run amorphic as a daemon', function() {
+describe('Run amorphic as secure daemon', function() {
 
     this.timeout(5000);
 

@@ -13,6 +13,6 @@
     "version": "1",
     "ca": "none",
     "isSecure": true,
-    "securePort": 444
+    "securePort": 8443
   }
 }
