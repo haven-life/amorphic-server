@@ -34,44 +34,7 @@ describe('Run amorphic as secure daemon', function() {
         assert.strictEqual(daemonController.__descriptions__('propWithValuesAndDescriptions')['value'], 'Description', 'The correct description for the value');
     });
 
-    it('should have virtual properties', function() {
-        assert.strictEqual(daemonController.virtualProp, 'I am virtual', 'Can use virutal props');
-    });
-
-    it('should get an 200 response from a custom GET endpoint', function() {
-        return axios.get('https://localhost:8443/api/test')
-            .then(function(response) {
-                assert.isOk(response, 'The response is ok');
-                assert.strictEqual(response.status, 200, 'The response code was 200');
-                assert.strictEqual(response.data, 'test API endpoint OK');
-            });
-    });
-
-    it('should get a response from a second custom endpoint', function() {
-        return axios.get('https://localhost:8443/api/test-other-endpoint')
-            .then(function(response) {
-                assert.isOk(response, 'The response is ok');
-                assert.strictEqual(response.status, 200, 'The response code was 200');
-                assert.strictEqual(response.data, 'test API endpoint OK');
-            });
-    });
-
-    it('should use middleware limits to reject a POST request that\'s too large', function() {
-        return axios.post('https://localhost:8443/api/middleware-endpoint', {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
-        })
-        .catch(function(response) {
-            assert.strictEqual(response.response.status, 413, 'The response code was 413');
-        });
-    });
-
-    it('should post to the endpoint successfully', function() {
-        return axios.post('https://localhost:8443/api/middleware-endpoint', {})
-            .then(function(response) {
-                assert.strictEqual(response.status, 200, 'The response code was 200');
-            });
-    });
+    //**@TODO: Add tests for secure server testing with certs */
 
     it('should post to the HTTP unsecure endpoint successfully', function() {
         return axios.post('http://localhost:3001/api/middleware-endpoint', {})
@@ -80,10 +43,15 @@ describe('Run amorphic as secure daemon', function() {
             });
     });
     
+    it('should have the appropriate server details', function() {
+        assert.strictEqual(amorphicContext.appContext.secureServer, 'daemon_secure', 'The app name was correct in express');
+    });
+
     it('should have the appropriate server options', function() {
         assert.strictEqual(amorphicContext.appContext.expressApp.locals.name, 'daemon_secure', 'The app name was correct in express');
         assert.strictEqual(amorphicContext.appContext.expressApp.locals.version, '1', 'The version was correct in express');
         assert.strictEqual(amorphicContext.applicationConfig['daemon_secure'].appConfig.serverOptions.ca, 'none', 'The certificate authority config was correct');
+        assert.strictEqual(amorphicContext.applicationConfig['daemon_secure'].appConfig.serverOptions.securePort, '8443', 'The secure port was correct');
     });
 
     after(function(done) {
