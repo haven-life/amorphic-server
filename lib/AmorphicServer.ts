@@ -87,17 +87,18 @@ export class AmorphicServer {
         if (isSecure) {
             const serverOptions = appConfig.appConfig.serverOptions;
 
+            let httpServer;
             // Use a securePort            
             if (securePort) {
                 const serverOptions = appConfig.appConfig.serverOptions;
-                const server = https.createServer(serverOptions, server.app).listen(securePort);
-                AmorphicContext.appContext.secureServer = server;
+                httpServer = https.createServer(serverOptions, server.app).listen(securePort);
+                AmorphicContext.appContext.secureServer = httpServer;
             }
 
             // Use the default port
             else {
-                const server = https.createServer(serverOptions, server.app).listen();
-                AmorphicContext.appContext.secureServer = server;
+                httpServer = https.createServer(serverOptions, server.app).listen();
+                AmorphicContext.appContext.secureServer = httpServer;
             }
         }
 
