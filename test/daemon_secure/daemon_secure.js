@@ -39,7 +39,7 @@ describe('Run amorphic as secure daemon', function() {
     });
 
     it('should get an 200 response from a custom GET endpoint', function() {
-        return axios.get('https://localhost:444/api/test')
+        return axios.get('https://localhost:8443/api/test')
             .then(function(response) {
                 assert.isOk(response, 'The response is ok');
                 assert.strictEqual(response.status, 200, 'The response code was 200');
@@ -48,7 +48,7 @@ describe('Run amorphic as secure daemon', function() {
     });
 
     it('should get a response from a second custom endpoint', function() {
-        return axios.get('https://localhost:444/api/test-other-endpoint')
+        return axios.get('https://localhost:8443/api/test-other-endpoint')
             .then(function(response) {
                 assert.isOk(response, 'The response is ok');
                 assert.strictEqual(response.status, 200, 'The response code was 200');
@@ -57,7 +57,7 @@ describe('Run amorphic as secure daemon', function() {
     });
 
     it('should use middleware limits to reject a POST request that\'s too large', function() {
-        return axios.post('https://localhost:444/api/middleware-endpoint', {
+        return axios.post('https://localhost:8443/api/middleware-endpoint', {
             firstName: 'Fred',
             lastName: 'Flintstone'
         })
@@ -67,7 +67,7 @@ describe('Run amorphic as secure daemon', function() {
     });
 
     it('should post to the endpoint successfully', function() {
-        return axios.post('https://localhost:444/api/middleware-endpoint', {})
+        return axios.post('https://localhost:8443/api/middleware-endpoint', {})
             .then(function(response) {
                 assert.strictEqual(response.status, 200, 'The response code was 200');
             });
