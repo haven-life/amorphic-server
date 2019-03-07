@@ -1,6 +1,7 @@
 {
   "include": [
-    "./lib/AmorphicServer.ts"
+    "./lib/AmorphicServer.ts",
+    "./lib/utils/remoteable.ts"
   ],
   "compilerOptions": {
     "module": "commonjs",
