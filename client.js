@@ -494,7 +494,7 @@ amorphic = // Needs to be global to make mocha tests work
                 var statusText = 'unknown';
             }
 
-            if (status == 200 || status == 0) {
+            if (status == 200) {
                 if (this.logLevel > 0) {
                     console.log('Got response for: ' + message.type + ' ' + message.name);
                 }
@@ -504,7 +504,7 @@ amorphic = // Needs to be global to make mocha tests work
             else {
                 console.log('Error: ' + message.type + ' ' + message.name + ' status: ' + status + ' - ' + statusText);
 
-                if (status == 503 && --retries) {
+                if ((status == 503 || status == 0) && --retries) {
                     console.log('temporary error retrying in ' + retryInterval / 1000 + ' seconds');
 
                     setTimeout(function () {
