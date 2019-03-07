@@ -33,6 +33,7 @@ type Options = {
     sessionConfig: any;
 }
 
+type ServerOptions = https.ServerOptions & {version?: number; securePort?: number; isSecure?: Boolean};
 //@TODO: Experiment with app.engine so we can have customizable SSR
 export class AmorphicServer {
     app: express.Express;
@@ -65,28 +66,44 @@ export class AmorphicServer {
         };
 
         if (appConfig.appConfig.isDaemon) {
-            server.setupUserEndpoints(appDirectory, mainApp);
+            server.setupUserEndpoints(appDirectory, appList[mainApp]);
         }
         else {
             server.setupAmorphicRouter(amorphicRouterOptions);
         }
 
         server.app.locals.name = mainApp;
-        server.app.locals.version = appConfig.appConfig.serverOptions && appConfig.appConfig.serverOptions.version;
 
+        const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
+
+        server.app.locals.version = serverOptions && serverOptions.version;
+
+        // Default port for described
         const port = AmorphicContext.amorphicOptions.port;
+        const securePort = serverOptions && serverOptions.securePort;
+        const isSecure = serverOptions && serverOptions.isSecure;
 
         // Secure App (https)
-        if (appConfig.appConfig && appConfig.appConfig.serverOptions && appConfig.appConfig.serverOptions.isSecure) {
-            const serverOptions: https.ServerOptions = appConfig.appConfig.serverOptions;
-            AmorphicContext.appContext.server = https.createServer(serverOptions, server.app).listen(port);
+        if (isSecure) {
+            const serverOptions = appConfig.appConfig.serverOptions;
+
+            // Use a securePort            
+            if (securePort) {
+                const serverOptions = appConfig.appConfig.serverOptions;
+                const server = https.createServer(serverOptions, server.app).listen(securePort);
+                AmorphicContext.appContext.secureServer = server;
+            }
+
+            // Use the default port
+            else {
+                const server = https.createServer(serverOptions, server.app).listen();
+                AmorphicContext.appContext.secureServer = server;
+            }
         }
 
         // @TODO: convert to http2 with node-spdy
         // Unsecure App (http)
-        else {
-            AmorphicContext.appContext.server = http.createServer(server.app).listen(port);
-        }
+        AmorphicContext.appContext.server = http.createServer(server.app).listen(port);
 
         AmorphicContext.appContext.expressApp = server.app;
     }

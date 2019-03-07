@@ -11,6 +11,8 @@
   "dbPassword": "postgres",
   "serverOptions": {
     "version": "1",
-    "ca": "none"
+    "ca": "none",
+    "isSecure": true,
+    "securePort": 444
   }
 }
