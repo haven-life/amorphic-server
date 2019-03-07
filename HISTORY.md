@@ -1,5 +1,6 @@
 ## 4.0.0
 * Enabling daemon applications to service their own endpoints.
+* Apply sendToLogFunction override to amorphic session 
 ## 3.1.0
 * Updating supertype to 3.1.0, adding a public api to allow customization of supertype's logging functionality
 ## 3.0.0
