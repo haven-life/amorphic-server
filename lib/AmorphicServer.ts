@@ -68,7 +68,8 @@ export class AmorphicServer {
         if (appConfig.appConfig.isDaemon) {
             server.setupUserEndpoints(appDirectory, appList[mainApp]);
         }
-        else {
+        
+        if (appConfig.appConfig.isDaemon !== 'daemonOnly') {
             server.setupAmorphicRouter(amorphicRouterOptions);
         }
 
