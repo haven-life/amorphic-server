@@ -1,6 +1,7 @@
 {
   "include": [
-    "./lib/AmorphicServer.ts"
+    "./lib/AmorphicServer.ts",
+    "./lib/stats/StatsdHelper.ts"
   ],
   "compilerOptions": {
     "module": "commonjs",
