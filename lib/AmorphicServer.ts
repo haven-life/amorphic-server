@@ -65,14 +65,27 @@ export class AmorphicServer {
             sessionConfig
         };
 
+        // Setup the preSession and postSession Injects for daemon mode only (if only daemon mode)
+        if (appConfig.appConfig.isDaemon === 'daemonOnly') {
+            if (preSessionInject) {
+                preSessionInject.call(null, server.app);
+            }
+            if (postSessionInject) {
+                postSessionInject.call(null, server.app);
+            }
+        }
+        
+        // Setup the amorphic router if not daemon Only
+        else {
+            server.setupAmorphicRouter(amorphicRouterOptions);
+        }
+
+
+        // Setup the daemon mode router if this field is set at all
         if (appConfig.appConfig.isDaemon) {
             server.setupUserEndpoints(appDirectory, appList[mainApp]);
         }
         
-        if (appConfig.appConfig.isDaemon !== 'daemonOnly') {
-            server.setupAmorphicRouter(amorphicRouterOptions);
-        }
-
         server.app.locals.name = mainApp;
 
         const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
@@ -245,7 +258,7 @@ export class AmorphicServer {
             .use(amorphicEntry.bind(null, sessions, controllers, nonObjTemplatelogLevel));
 
         if (postSessionInject) {
-            postSessionInject.call(null, amorphicRouter);
+            postSessionInject.call(null, this.app);
         }
 
 
@@ -262,6 +275,7 @@ export class AmorphicServer {
         router = setupCustomRoutes(appDirectory, mainAppPath, router);
 
         let apiPath = '/api';
+
         if (router) {
             this.app.use(apiPath, router);
             this.routers.push({ path: apiPath, router: router });
