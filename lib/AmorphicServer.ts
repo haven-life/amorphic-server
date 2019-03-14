@@ -256,10 +256,10 @@ export class AmorphicServer {
         this.routers.push({ path: amorphicPath, router: amorphicRouter });
     }
 
-    setupUserEndpoints(appDirectory, mainApp) {
+    setupUserEndpoints(appDirectory, mainAppPath) {
 
-        let router = setupCustomMiddlewares(appDirectory, mainApp, express.Router());
-        router = setupCustomRoutes(appDirectory, mainApp, router);
+        let router = setupCustomMiddlewares(appDirectory, mainAppPath, express.Router());
+        router = setupCustomRoutes(appDirectory, mainAppPath, router);
 
         let apiPath = '/api';
         if (router) {
