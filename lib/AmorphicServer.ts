@@ -33,7 +33,13 @@ type Options = {
     sessionConfig: any;
 }
 
-type ServerOptions = https.ServerOptions & {version?: number; securePort?: number; isSecure?: Boolean};
+type ServerOptions = https.ServerOptions &
+{
+    version?: number;
+    securePort?: number; isSecure?: Boolean
+    apiPath?: string;
+};
+
 //@TODO: Experiment with app.engine so we can have customizable SSR
 export class AmorphicServer {
     app: express.Express;
@@ -65,31 +71,39 @@ export class AmorphicServer {
             sessionConfig
         };
 
+        const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
+
+
+        /**
+        *
+        * serverMode is only set to 'daemonOnly' right now, 
+        * we will need to revisit when we want to deprecate isDaemon
+        *
+        **/
+       
         // Setup the preSession and postSession Injects for daemon mode only (if only daemon mode)
-        if (appConfig.appConfig.isDaemon === 'daemonOnly') {
+        if (appConfig.appConfig.serverMode === 'daemonOnly') {
             if (preSessionInject) {
                 preSessionInject.call(null, server.app);
             }
             if (postSessionInject) {
                 postSessionInject.call(null, server.app);
             }
+            const apiPath = serverOptions.apiPath ? serverOptions.apiPath : '/';
+            server.setupUserEndpoints(appDirectory, appList[mainApp], apiPath);
         }
-        
+
         // Setup the amorphic router if not daemon Only
         else {
             server.setupAmorphicRouter(amorphicRouterOptions);
+            // Setup the daemon mode router if this field is set at all
+
+            if (appConfig.appConfig.isDaemon) {
+                server.setupUserEndpoints(appDirectory, appList[mainApp]);
+            }
         }
 
-
-        // Setup the daemon mode router if this field is set at all
-        if (appConfig.appConfig.isDaemon) {
-            server.setupUserEndpoints(appDirectory, appList[mainApp]);
-        }
-        
         server.app.locals.name = mainApp;
-
-        const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
-
         server.app.locals.version = serverOptions && serverOptions.version;
 
         // Default port for described
@@ -269,12 +283,19 @@ export class AmorphicServer {
         this.routers.push({ path: amorphicPath, router: amorphicRouter });
     }
 
-    setupUserEndpoints(appDirectory, mainAppPath) {
+    /**
+     *
+     *
+     * @param {*} appDirectory
+     * @param {*} mainAppPath
+     * @param {string} [apiPath='/api'] Default to '/api' as the default setting 
+     * for amorphic is for the '/amorphic' routes to run
+     * @memberof AmorphicServer
+     */
+    setupUserEndpoints(appDirectory, mainAppPath, apiPath = '/api') {
 
         let router = setupCustomMiddlewares(appDirectory, mainAppPath, express.Router());
         router = setupCustomRoutes(appDirectory, mainAppPath, router);
-
-        let apiPath = '/api';
 
         if (router) {
             this.app.use(apiPath, router);
