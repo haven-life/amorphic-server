@@ -89,7 +89,7 @@ export class AmorphicServer {
             if (postSessionInject) {
                 postSessionInject.call(null, server.app);
             }
-            const apiPath = serverOptions.apiPath ? serverOptions.apiPath : '/';
+            const apiPath = (serverOptions && serverOptions.apiPath) ? serverOptions.apiPath : '/';
             server.setupUserEndpoints(appDirectory, appList[mainApp], apiPath);
         }
 
