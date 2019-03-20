@@ -4,7 +4,7 @@
     "objectCacheSeconds" : 600,
     "sessionSecret" : "Ey0veeljPcLsHitdxCG2",
     "applications" : {
-        "daemon_only": "apps/daemon_only"
+        "daemon_only_apiPath": "apps/daemon_only_apiPath"
     },
-    "application"  : "daemon_only"
+    "application"  : "daemon_only_apiPath"
 }
