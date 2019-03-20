@@ -272,7 +272,7 @@ export class AmorphicServer {
             .use(amorphicEntry.bind(null, sessions, controllers, nonObjTemplatelogLevel));
 
         if (postSessionInject) {
-            postSessionInject.call(null, this.app);
+            postSessionInject.call(null, amorphicRouter);
         }
 
 
