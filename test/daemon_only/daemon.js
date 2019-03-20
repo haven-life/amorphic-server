@@ -76,7 +76,7 @@ describe('Run amorphic as deamon only', function() {
 
     // Amorphic xhr tests
     it('should error out because amorphic/xhr cannot be reached', function() {
-        return axios.get('http://localhost:3001/amorphic/xhr')
+        return axios.get('http://loclhost:3001/amorphic/xhr')
             .then(function() {
                 assert.isNotOk('To be here');
             })
