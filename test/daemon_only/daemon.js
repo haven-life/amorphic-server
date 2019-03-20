@@ -40,7 +40,7 @@ describe('Run amorphic as deamon only', function() {
 
 
     it('should get an 200 response from a custom GET endpoint', function() {
-        return axios.get('http://localhost:3001/api/test')
+        return axios.get('http://localhost:3001/test')
             .then(function(response) {
                 assert.isOk(response, 'The response is ok');
                 assert.strictEqual(response.status, 200, 'The response code was 200');
