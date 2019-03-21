@@ -36,7 +36,8 @@ type Options = {
 type ServerOptions = https.ServerOptions &
 {
     version?: number;
-    securePort?: number; isSecure?: Boolean
+    securePort?: number;
+    isSecure?: Boolean;
     apiPath?: string;
 };
 
