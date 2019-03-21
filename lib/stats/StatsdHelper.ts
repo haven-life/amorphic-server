@@ -7,6 +7,6 @@ export function convertHRTimeToMilliseconds(hrTime: hrTime): number {
 export function computeTimingAndSend(hrTimeStart: hrTime, statsdClient, statsKey, tags?): number {
     const processMessageEndTime = process.hrtime(hrTimeStart);
     const totalTimeInMilliseconds = convertHRTimeToMilliseconds(processMessageEndTime);
-    statsdClient.timing(statsKey, totalTimeInMilliseconds);
+    statsdClient.timing(statsKey, totalTimeInMilliseconds, tags);
     return totalTimeInMilliseconds;
 }
