@@ -1,5 +1,5 @@
 {
-  "serverMode": "daemonOnly",
+  "serverMode": "api",
   "createControllerFor": "#",
   "ver":          "0",
   "modules":      {},

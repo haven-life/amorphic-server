@@ -73,17 +73,12 @@ export class AmorphicServer {
         };
 
         const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
+        //
+        // serverMode is only set to 'api' right now, 
+        // we will need to revisit when we want to deprecate isDaemon
 
-
-        /**
-        *
-        * serverMode is only set to 'daemonOnly' right now, 
-        * we will need to revisit when we want to deprecate isDaemon
-        *
-        **/
-       
         // Setup the preSession and postSession Injects for daemon mode only (if only daemon mode)
-        if (appConfig.appConfig.serverMode === 'daemonOnly') {
+        if (appConfig.appConfig.serverMode === 'api') {
             if (preSessionInject) {
                 preSessionInject.call(null, server.app);
             }
