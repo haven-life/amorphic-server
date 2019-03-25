@@ -16,9 +16,9 @@
     "formidable": "1.1.1",
     "mongodb-bluebird": "0.1.2",
     "nconf": "0.8.5",
-    "persistor": "2.8.*",
-    "semotus": "2.4.*",
-    "supertype": "3.1.*",
+    "persistor": "haven-life/persistor#test/feature/stats-d-supertype",
+    "semotus": "haven-life/semotus#test/feature/stats-d-supertype",
+    "supertype": "haven-life/supertype#test/feature/stats-d-supertype",
     "uglify-js": "2.7.5"
   },
   "devDependencies": {
