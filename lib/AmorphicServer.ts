@@ -20,7 +20,8 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as fs from 'fs';
 import * as compression from 'compression';
-
+import * as http from 'http';
+import * as https from 'https';
 
 type Options = {
     amorphicOptions: any;
@@ -32,13 +33,21 @@ type Options = {
     sessionConfig: any;
 }
 
+type ServerOptions = https.ServerOptions &
+{
+    version?: number;
+    securePort?: number;
+    isSecure?: Boolean;
+    apiPath?: string;
+};
+
+//@TODO: Experiment with app.engine so we can have customizable SSR
 export class AmorphicServer {
     app: express.Express;
 
-    routers: {path: string; router: express.Router}[] = [];
+    routers: { path: string; router: express.Router }[] = [];
 
     /**
-    * Purpose unknown
     *
     * @param preSessionInject - callback before server starts up
     * @param postSessionInject - callback after server starts up
@@ -53,7 +62,7 @@ export class AmorphicServer {
         const mainApp = amorphicOptions.mainApp;
         const appConfig = AmorphicContext.applicationConfig[mainApp];
 
-        const options: Options = {
+        const amorphicRouterOptions: Options = {
             amorphicOptions,
             preSessionInject,
             postSessionInject,
@@ -63,16 +72,65 @@ export class AmorphicServer {
             sessionConfig
         };
 
-        /*
-         * @TODO: Remove generation of downloads directory / all amorphic routes from daemon mode apps
-         *  Or at least refactor how we go about downloads
-         */
-        server.setupAmorphicRouter(options);
-        if (appConfig.appConfig.isDaemon) {
-            server.setupUserEndpoints(appDirectory, mainApp);
+        const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
+        //
+        // serverMode is only set to 'api' right now, 
+        // we will need to revisit when we want to deprecate isDaemon
+
+        // Setup the preSession and postSession Injects for daemon mode only (if only daemon mode)
+        if (appConfig.appConfig.serverMode === 'api') {
+            if (preSessionInject) {
+                preSessionInject.call(null, server.app);
+            }
+            if (postSessionInject) {
+                postSessionInject.call(null, server.app);
+            }
+            const apiPath = (serverOptions && serverOptions.apiPath) ? serverOptions.apiPath : '/';
+            server.setupUserEndpoints(appDirectory, appList[mainApp], apiPath);
         }
 
-        AmorphicContext.appContext.server = server.app.listen(AmorphicContext.amorphicOptions.port);
+        // Setup the amorphic router if not daemon Only
+        else {
+            server.setupAmorphicRouter(amorphicRouterOptions);
+            // Setup the daemon mode router if this field is set at all
+
+            if (appConfig.appConfig.isDaemon) {
+                server.setupUserEndpoints(appDirectory, appList[mainApp]);
+            }
+        }
+
+        server.app.locals.name = mainApp;
+        server.app.locals.version = serverOptions && serverOptions.version;
+
+        // Default port for described
+        const port = AmorphicContext.amorphicOptions.port;
+        const securePort = serverOptions && serverOptions.securePort;
+        const isSecure = serverOptions && serverOptions.isSecure;
+
+        // Secure App (https)
+        if (isSecure) {
+            const serverOptions = appConfig.appConfig.serverOptions;
+
+            let httpServer;
+            // Use a securePort            
+            if (securePort) {
+                const serverOptions = appConfig.appConfig.serverOptions;
+                httpServer = https.createServer(serverOptions, server.app).listen(securePort);
+                AmorphicContext.appContext.secureServer = httpServer;
+            }
+
+            // Use the default port
+            else {
+                httpServer = https.createServer(serverOptions, server.app).listen();
+                AmorphicContext.appContext.secureServer = httpServer;
+            }
+        }
+
+        // @TODO: convert to http2 with node-spdy
+        // Unsecure App (http)
+        AmorphicContext.appContext.server = http.createServer(server.app).listen(port);
+
+        AmorphicContext.appContext.expressApp = server.app;
     }
 
     /**
@@ -139,7 +197,7 @@ export class AmorphicServer {
         let reqBodySizeLimit = appConfig.reqBodySizeLimit || '50mb';
         let controllers = {};
         let sessions = {};
-        
+
         const downloads = generateDownloadsDir();
 
         /*
@@ -210,7 +268,7 @@ export class AmorphicServer {
             .use(amorphicEntry.bind(null, sessions, controllers, nonObjTemplatelogLevel));
 
         if (postSessionInject) {
-            postSessionInject.call(null, amorphicRouter);
+            postSessionInject.call(null, this.app);
         }
 
 
@@ -218,18 +276,26 @@ export class AmorphicServer {
         const amorphicPath = '/amorphic';
 
         this.app.use(`${amorphicPath}`, amorphicRouter);
-        this.routers.push({path: amorphicPath, router: amorphicRouter});
+        this.routers.push({ path: amorphicPath, router: amorphicRouter });
     }
 
-    setupUserEndpoints(appDirectory, mainApp) {
+    /**
+     *
+     *
+     * @param {*} appDirectory
+     * @param {*} mainAppPath
+     * @param {string} [apiPath='/api'] Default to '/api' as the default setting 
+     * for amorphic is for the '/amorphic' routes to run
+     * @memberof AmorphicServer
+     */
+    setupUserEndpoints(appDirectory, mainAppPath, apiPath = '/api') {
 
-        let router = setupCustomMiddlewares(appDirectory, mainApp, express.Router());
-        router = setupCustomRoutes(appDirectory, mainApp, router);
+        let router = setupCustomMiddlewares(appDirectory, mainAppPath, express.Router());
+        router = setupCustomRoutes(appDirectory, mainAppPath, router);
 
-        let apiPath = '/api';
         if (router) {
             this.app.use(apiPath, router);
-            this.routers.push({path: apiPath, router: router});
+            this.routers.push({ path: apiPath, router: router });
         }
 
         /**
