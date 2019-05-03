@@ -41,6 +41,7 @@ var controllerRequires;
 var Controller;
 var serverAmorphic = require('../../dist/index.js');
 var amorphicContext = require('../../dist/lib/AmorphicContext');
+var statsdHelper = require('../../dist/lib/stats/StatsdHelper').StatsdHelper;
 
 // Fire up amorphic as the client
 require('../../client.js');
@@ -51,10 +52,10 @@ function afterEachDescribe(done) {
     }
     done();
 }
-function beforeEachDescribe(done, appName, createControllerFor, sourceMode) {
+function beforeEachDescribe(done, appName, createControllerFor, sourceMode, statsClient) {
     process.env.createControllerFor = createControllerFor;
     process.env.sourceMode = sourceMode || 'debug';
-    serverAmorphic.listen(__dirname + '/');
+    serverAmorphic.listen(__dirname + '/', undefined, undefined, undefined, undefined, statsClient);
     var modelRequiresPath = './apps/' + appName + '/public/js/model.js';
     var controllerRequiresPath = './apps/' + appName + '/public/js/controller.js';
     modelRequires = require(modelRequiresPath).model(RemoteObjectTemplate, function () {});
@@ -728,6 +729,42 @@ describe('source mode prod testing', function () {
                 expect(res.data.version).to.equal(3);
                 expect(typeof res.data.mappings).to.equal('string');
             });
+        });
+    });
+});
+
+describe('statsd module testing', function () {
+    describe('statsd module enabled', function () {
+
+        const statsModule = {
+            timing: 'timing stub'
+        };
+
+        before(function (done) {
+            return beforeEachDescribe(done, 'config', 'yes', 'prod', statsModule);
+        });
+        after(afterEachDescribe);
+
+        it('should be able to consume a module and put it on amorphic static (supertype session)', () => {
+            let result = statsdHelper.isStatsEnabled();
+            expect(result).to.equal(true);
+        });
+    });
+
+    describe('statsd module disabled', function () {
+
+        const statsModule = {
+            timing: 'timing stub'
+        };
+
+        before(function (done) {
+            return beforeEachDescribe(done, 'test', 'yes', 'prod', statsModule);
+        });
+        after(afterEachDescribe);
+
+        it('should be able to consume a module and put it on amorphic static (supertype session)', () => {
+            let result = statsdHelper.isStatsEnabled();
+            expect(result).to.equal(false);
         });
     });
 });
