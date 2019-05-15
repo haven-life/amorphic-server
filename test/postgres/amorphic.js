@@ -41,7 +41,7 @@ var controllerRequires;
 var Controller;
 var serverAmorphic = require('../../dist/index.js');
 var amorphicContext = require('../../dist/lib/AmorphicContext');
-var statsdHelper = require('../../dist/lib/stats/StatsdHelper').StatsdHelper;
+const SupertypeSession = require('supertype').SupertypeSession;
 
 // Fire up amorphic as the client
 require('../../client.js');
@@ -50,11 +50,14 @@ function afterEachDescribe(done) {
     if(amorphicContext.appContext.server){
         amorphicContext.appContext.server.close();
     }
+    // reset the session statsd client
+    SupertypeSession.statsdClient = undefined;
     done();
 }
 function beforeEachDescribe(done, appName, createControllerFor, sourceMode, statsClient) {
     process.env.createControllerFor = createControllerFor;
     process.env.sourceMode = sourceMode || 'debug';
+    amorphicContext.amorphicOptions.mainApp = appName; // we inject our main app name here
     serverAmorphic.listen(__dirname + '/', undefined, undefined, undefined, undefined, statsClient);
     var modelRequiresPath = './apps/' + appName + '/public/js/model.js';
     var controllerRequiresPath = './apps/' + appName + '/public/js/controller.js';
@@ -733,38 +736,37 @@ describe('source mode prod testing', function () {
     });
 });
 
-describe('statsd module testing', function () {
-    describe('statsd module enabled', function () {
+describe('statsd module enabled', function () {
 
-        const statsModule = {
-            timing: 'timing stub'
-        };
+    const statsModule = {
+        timing: 'timing stub'
+    };
 
-        before(function (done) {
-            return beforeEachDescribe(done, 'config', 'yes', 'prod', statsModule);
-        });
-        after(afterEachDescribe);
-
-        it('should be able to consume a module and put it on amorphic static (supertype session)', () => {
-            let result = statsdHelper.isStatsEnabled();
-            expect(result).to.equal(true);
-        });
+    before(function (done) {
+        return beforeEachDescribe(done, 'test', 'yes', 'prod', statsModule);
     });
 
-    describe('statsd module disabled', function () {
+    after(afterEachDescribe);
 
-        const statsModule = {
-            timing: 'timing stub'
-        };
+    it('should be able to consume a module and put it on amorphic static (supertype session)', () => {
+        const statsdClient = SupertypeSession.amorphicStatic.statsdClient;
+        expect(statsdClient.timing).to.equal('timing stub');
+    });
+});
 
-        before(function (done) {
-            return beforeEachDescribe(done, 'test', 'yes', 'prod', statsModule);
-        });
-        after(afterEachDescribe);
+describe('statsd module disabled', function () {
+    const statsModule = {
+        timing: 'timing stub'
+    };
 
-        it('should be able to consume a module and put it on amorphic static (supertype session)', () => {
-            let result = statsdHelper.isStatsEnabled();
-            expect(result).to.equal(false);
-        });
+    before(function (done) {
+        return beforeEachDescribe(done, 'test-disablestatsd', 'yes', 'prod', statsModule);
+    });
+
+    after(afterEachDescribe);
+
+    it('should be to disable passing stats client through', () => {
+        const statsdClient = SupertypeSession.amorphicStatic.statsdClient;
+        expect(statsdClient).to.equal(undefined);
     });
 });

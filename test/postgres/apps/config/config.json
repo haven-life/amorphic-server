@@ -7,6 +7,5 @@
   "dbType" : "pg",
   "dbPath": "127.0.0.1",
   "dbUser": "postgres",
-  "dbPassword": "postgres",
-  "amorphicEnableStatsd": true
+  "dbPassword": "postgres"
 }

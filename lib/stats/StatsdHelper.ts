@@ -1,5 +1,4 @@
 const SupertypeSession = require('supertype').SupertypeSession;
-const amorphicContext = require('../AmorphicContext');
 
 type hrTime = [number, number];
 
@@ -13,17 +12,11 @@ export class StatsdHelper {
 
         if(statsdClient
             && statsdClient.timing
-            && typeof statsdClient.timing === 'function'
-            && this.isStatsEnabled()) {
+            && typeof statsdClient.timing === 'function') {
 
             const processMessageEndTime = process.hrtime(hrTimeStart);
             const totalTimeInMilliseconds = this.convertHRTimeToMilliseconds(processMessageEndTime);
             statsdClient.timing(statsKey, totalTimeInMilliseconds, tags);
         }
-    }
-
-    private static isStatsEnabled(): boolean {
-        console.log("!!! things for ", amorphicContext.amorphicOptions.mainApp, amorphicContext.applicationConfig[amorphicContext.amorphicOptions.mainApp].appConfig.amorphicEnableStatsd)
-        return Boolean(amorphicContext.applicationConfig[amorphicContext.amorphicOptions.mainApp].appConfig.amorphicEnableStatsd);
     }
 }

@@ -5,9 +5,10 @@
     "sessionSecret": "Ey0veeljPcLsHitdxCG2",
     "applications": {
         "test": "apps/test",
-        "config": "apps/config"
+        "config": "apps/config",
+        "test-disablestatsd": "apps/test-disablestatsd"
     },
-	"application": "test;config",
+	"application": "test;config;test-disablestatsd",
     "conflictMode": "hard",
     "commonPath": "apps/common"
 }

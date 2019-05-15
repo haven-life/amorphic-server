@@ -9,5 +9,5 @@
   "dbUser": "postgres",
   "dbPassword": "postgres",
   "keepOriginalIdForSavedObjects": "yes",
-  "amorphicEnableStatsd": true
+  "amorphicEnableStatsd": false
 }
