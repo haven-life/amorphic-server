@@ -1,7 +1,6 @@
 {
   "files": [
-    "./lib/AmorphicServer.ts",
-    "./lib/stats/StatsdHelper.ts"
+    "./lib/AmorphicServer.ts"
   ],
   "compilerOptions": {
     "module": "commonjs",
