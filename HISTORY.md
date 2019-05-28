@@ -1,3 +1,5 @@
+## 4.4.0
+* Moving the target npm repo to @havenlife/amorphic
 ## 4.3.0
 * Updated Persistor to 2.11.*
 ## 4.2.2
