@@ -754,19 +754,4 @@ describe('statsd module enabled', function () {
     });
 });
 
-describe('statsd module disabled', function () {
-    const statsModule = {
-        timing: 'timing stub'
-    };
-
-    before(function (done) {
-        return beforeEachDescribe(done, 'test-disablestatsd', 'yes', 'prod', statsModule);
-    });
-
-    after(afterEachDescribe);
-
-    it('should be to disable passing stats client through', () => {
-        const statsdClient = SupertypeSession.amorphicStatic.statsdClient;
-        expect(statsdClient).to.equal(undefined);
-    });
-});
+// TODO HL-16449 refactor testing suite, re-add statsd module disabled unit test.
