@@ -1,6 +1,8 @@
-## 4.3.0
+## 4.4.0
 * Add the option to pass in an analytics client into amorphic. Use this
 * client to monitor key function response times.
+## 4.3.0
+* Updated Persistor to 2.11.*
 ## 4.2.2
 * Updated Semotus to 2.5.*
 ## 4.2.1
