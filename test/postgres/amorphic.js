@@ -41,7 +41,7 @@ var controllerRequires;
 var Controller;
 var serverAmorphic = require('../../dist/index.js');
 var amorphicContext = require('../../dist/lib/AmorphicContext');
-const SupertypeSession = require('supertype').SupertypeSession;
+const SupertypeSession = require('@havenlife/supertype').SupertypeSession;
 
 // Fire up amorphic as the client
 require('../../client.js');
