@@ -1,10 +1,10 @@
 {
-  "name": "amorphic",
+  "name": "@havenlife/amorphic",
   "description": "Front to back isomorphic framework for developing applications with node.js and mongoDB",
   "homepage": "https://github.com/haven-life/amorphic",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "4.4.0",
+  "version": "4.5.0-beta.0",
   "dependencies": {
     "amorphic-bindster": "2.0.*",
     "bluebird": "3.5.1",
@@ -16,10 +16,10 @@
     "formidable": "1.1.1",
     "mongodb-bluebird": "0.1.2",
     "nconf": "0.8.5",
-    "persistor": "2.11.*",
-    "semotus": "2.5.*",
-    "supertype": "3.2.0",
-    "uglify-js": "2.7.5"
+    "uglify-js": "2.7.5",
+    "@havenlife/supertype": "3.3.*",
+    "@havenlife/persistor": "3.0.*",
+    "@havenlife/semotus": "3.0.*"
   },
   "devDependencies": {
     "@types/chai": "4.0.4",
