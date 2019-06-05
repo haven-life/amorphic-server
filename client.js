@@ -153,9 +153,9 @@ amorphic = // Needs to be global to make mocha tests work
     logoutFunction: function logoutUser() {
         if (this.state === 'live') {
             // check to see if the consuming app has defined logout functionality
-            if (this.controller.clientExpire && typeof this.controller.clientExpire === 'function') {
+            if (this.controller.publicExpireSession && typeof this.controller.publicExpireSession === 'function') {
                 console.log('Server session ready to expire, controller resetting itself to be offline');
-                this.controller.clientExpire();
+                this.controller.publicExpireSession();
             }
             // consuming app has NOT specified logout behavior. use our default.
             else {
@@ -343,7 +343,7 @@ amorphic = // Needs to be global to make mocha tests work
                 clearTimeout(self.logoutTimer);
                 self.pingSession();
 
-                self.logoutTimer = setTimeout(self.logoutFunction, self.sessionExpiration);
+                self.logoutTimer = setTimeout(self.logoutFunction.bind(self), self.sessionExpiration);
                 self.activity = false;
             }
         }, self.activityHeartbeatInterval);
