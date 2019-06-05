@@ -335,8 +335,7 @@ amorphic = // Needs to be global to make mocha tests work
             this can either be our definition of logout, or the consuming app's overridden version of logout.
 
             YES ACTIVITY?
-            if there is activity before the session expires, ping the session on the server, and reset the
-            timer to start counting down again.
+            if there is activity before the session expires, and reset the timer to start counting down again.
          */
         setInterval(function checkActivityHeartbeat() {
             if (self.activity) {
