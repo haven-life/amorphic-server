@@ -139,6 +139,7 @@ amorphic = // Needs to be global to make mocha tests work
     config: {},
     schema: {},
     sessionExpiration: 0,
+    activityHeartbeatInterval: 20000,
     logoutTimer: null,
     session: (new Date()).getTime(),
     state: 'live',
@@ -273,10 +274,6 @@ amorphic = // Needs to be global to make mocha tests work
                     return;
                 }
 
-                    // Setup a new session timeout check
-                // self._setSessionTimeout();
-                self.activity = true;
-
                 if (message.type == 'pinged') {
                     return;
                 }
@@ -347,8 +344,9 @@ amorphic = // Needs to be global to make mocha tests work
                 self.pingSession();
 
                 self.logoutTimer = setTimeout(self.logoutFunction, self.sessionExpiration);
+                self.activity = false;
             }
-        }, 20000);
+        }, self.activityHeartbeatInterval);
 
         setInterval(function () {
             self._zombieCheck();
