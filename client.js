@@ -341,7 +341,6 @@ amorphic = // Needs to be global to make mocha tests work
         setInterval(function checkActivityHeartbeat() {
             if (self.activity) {
                 clearTimeout(self.logoutTimer);
-                self.pingSession();
 
                 self.logoutTimer = setTimeout(self.logoutFunction.bind(self), self.sessionExpiration);
                 self.activity = false;
