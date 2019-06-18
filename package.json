@@ -4,7 +4,7 @@
   "homepage": "https://github.com/haven-life/amorphic",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "dependencies": {
     "@havenlife/supertype": "3.3.*",
     "@havenlife/persistor": "3.0.*",

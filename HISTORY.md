@@ -1,3 +1,5 @@
+## 4.5.1
+* Fixed info level logging from client in an amorphic app was not propogating to the server side logs
 ## 4.5.0
 * Using @havenlife/supertype, @havenlife/semotus, @havenlife/persistor
 * refactor inactivity logout functionality.

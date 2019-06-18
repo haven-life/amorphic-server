@@ -213,7 +213,7 @@ amorphic = // Needs to be global to make mocha tests work
 
             console.log(output);
 
-            if (level == 'error' || level == 'fatal') {
+            if (level == 'error' || level == 'fatal' || level == 'info') {
                 this.sendLoggingMessage(level, data);
 
                 if (this.controller && typeof(this.controller.displayError) === 'function') {
