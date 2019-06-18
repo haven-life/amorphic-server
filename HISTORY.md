@@ -1,3 +1,5 @@
+## 4.6.0
+* Using stats client for persistor
 ## 4.5.0
 * Using @havenlife/supertype, @havenlife/semotus, @havenlife/persistor
 * refactor inactivity logout functionality.
