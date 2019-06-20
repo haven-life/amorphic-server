@@ -6,9 +6,9 @@
   "types": "dist/index.d.ts",
   "version": "4.6.0",
   "dependencies": {
-    "@havenlife/supertype": "3.3.*",
     "@havenlife/persistor": "3.x",
-    "@havenlife/semotus": "3.0.*",
+    "@havenlife/semotus": "3.x",
+    "@havenlife/supertype": "3.x",
     "amorphic-bindster": "2.0.*",
     "bluebird": "3.5.1",
     "chalk": "2.4.1",
