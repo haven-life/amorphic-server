@@ -74,8 +74,7 @@ export class AmorphicServer {
 
         const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
 
-        // serverMode is only set to 'api' right now, 
-        // we will need to revisit when we want to deprecate isDaemon
+        // const apiPath = (serverOptions && serverOptions.apiPath) ? serverOptions.apiPath : '/';
 
         // if we are strictly setting up user endpoints only. no default amorphic routes.
         if (server.serverMode === 'api') {
@@ -85,8 +84,7 @@ export class AmorphicServer {
             if (postSessionInject) {
                 postSessionInject.call(null, server.app);
             }
-            const apiPath = (serverOptions && serverOptions.apiPath) ? serverOptions.apiPath : '/';
-            server.setupUserEndpoints(appDirectory, appList[mainApp], apiPath);
+            server.setupUserEndpoints(appDirectory, appList[mainApp]);
         }
         else { // we are setting up both amorphic default endpoints, and user defined endpoints.
             server.setupAmorphicRouter(amorphicRouterOptions);
