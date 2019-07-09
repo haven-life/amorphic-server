@@ -74,7 +74,7 @@ export class AmorphicServer {
 
         const serverOptions: ServerOptions = appConfig.appConfig && appConfig.appConfig.serverOptions;
 
-        // const apiPath = (serverOptions && serverOptions.apiPath) ? serverOptions.apiPath : '/';
+        const apiPath = serverOptions && serverOptions.apiPath;
 
         // if we are strictly setting up user endpoints only. no default amorphic routes.
         if (server.serverMode === 'api') {
@@ -84,11 +84,11 @@ export class AmorphicServer {
             if (postSessionInject) {
                 postSessionInject.call(null, server.app);
             }
-            server.setupUserEndpoints(appDirectory, appList[mainApp]);
+            server.setupUserEndpoints(appDirectory, appList[mainApp], apiPath);
         }
         else { // we are setting up both amorphic default endpoints, and user defined endpoints.
             server.setupAmorphicRouter(amorphicRouterOptions);
-            server.setupUserEndpoints(appDirectory, appList[mainApp]);
+            server.setupUserEndpoints(appDirectory, appList[mainApp], apiPath);
         }
 
         server.app.locals.name = mainApp;
