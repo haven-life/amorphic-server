@@ -119,7 +119,7 @@ export class AmorphicServer {
 
     /**
      *
-     * @param {e.Express} app
+     * @param {express.Express} app, an instance of an express server
      * @param {string} serverMode
      */
     constructor(app: express.Express, serverMode: string) {
@@ -285,7 +285,13 @@ export class AmorphicServer {
     }
 
     private getBaseControllerFilePath(appDirectory: string, mainAppPath: string) {
-        const codeLocation = this.serverMode === 'api' || this.serverMode === 'daemon' ? 'js' : 'public/js';
+        let codeLocation: string;
+
+        if (this.serverMode === 'api' || this.serverMode === 'daemon') {
+            codeLocation = 'js'
+        } else {
+            codeLocation = 'public/js'
+        }
         return `${appDirectory}/${mainAppPath}/${codeLocation}/`;
     }
 }
