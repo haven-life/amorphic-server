@@ -669,7 +669,7 @@ describe('processLoggingMessage', function() {
         };
 
         expect(amorphic._post.calledOnce).to.be.true;
-        expect(amorphic._post.calledWith(url, payload)).to.be.true;
+		expect(amorphic._post.calledWith(url, sinon.match(payload))).to.be.true;
     });
 });
 
