@@ -216,19 +216,13 @@ amorphic = // Needs to be global to make mocha tests work
 
             console.log(output);
 
-            if (level === 'info') {
-                console.log('\n\n\n\n\n'+level);
-                console.log(output+'\n\n\n');
-                console.log(data.component)
-            }
-
             if (level == 'error' || level == 'fatal' ) {
                 this.sendLoggingMessage(level, data);
 
                 if (this.controller && typeof(this.controller.displayError) === 'function') {
                     this.controller.displayError(output);
                 }
-            } else if (level === 'info' && (component && component !== 'amorphic' && component !== 'semotus')) {
+            } else if (level === 'info' && (component && component === 'browser')) {
                 this.sendLoggingMessage(level, data);
 
                 if (this.controller && typeof(this.controller.displayError) === 'function') {
