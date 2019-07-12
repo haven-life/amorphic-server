@@ -42,24 +42,28 @@ var Controller;
 var serverAmorphic = require('../../dist/index.js');
 var amorphicContext = require('../../dist/lib/AmorphicContext');
 const SupertypeSession = require('@havenlife/supertype').SupertypeSession;
+const sendToLog = SupertypeSession.logger.sendToLog;
 
 // Fire up amorphic as the client
 require('../../client.js');
 
 function afterEachDescribe(done) {
-    if(amorphicContext.appContext.server){
-        amorphicContext.appContext.server.close();
-    }
-    // reset the session statsd client
-    SupertypeSession.statsdClient = undefined;
-    done();
+	if (amorphicContext.appContext.server) {
+		amorphicContext.appContext.server.close();
+	}
+	// reset the session statsd client
+	SupertypeSession.statsdClient = undefined;
+	done();
 }
 function beforeEachDescribe(done, appName, createControllerFor, sourceMode, statsClient) {
-    process.env.createControllerFor = createControllerFor;
-    process.env.sourceMode = sourceMode || 'debug';
-    amorphicContext.amorphicOptions.mainApp = appName; // we inject our main app name here
-    serverAmorphic.listen(__dirname + '/', undefined, undefined, undefined, undefined, statsClient);
-    var modelRequiresPath = './apps/' + appName + '/public/js/model.js';
+	process.env.createControllerFor = createControllerFor;
+	process.env.sourceMode = sourceMode || 'debug';
+	amorphicContext.amorphicOptions.mainApp = appName; // we inject our main app name here
+
+	// need to inject the amorphicStatic send to log because due to loading up both client and server in the same module resolution
+	// we override our sendToLog with the the clients sometimes
+	serverAmorphic.listen(__dirname + '/', undefined, undefined, undefined, sendToLog, statsClient);
+	var modelRequiresPath = './apps/' + appName + '/public/js/model.js';
     var controllerRequiresPath = './apps/' + appName + '/public/js/controller.js';
     modelRequires = require(modelRequiresPath).model(RemoteObjectTemplate, function () {});
     controllerRequires = require(controllerRequiresPath).controller(RemoteObjectTemplate, function () {
