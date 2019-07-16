@@ -474,6 +474,10 @@ amorphic = // Needs to be global to make mocha tests work
     },
 
     _post: function (url, message, success, failure, retries, retryInterval) {
+
+        // Add request ID for every post call into the messages loggingContext
+        message.loggingContext.requestID = this.generateUID();
+        console.log(`\n\n\n RequestId is ${message.loggingContext.requestID}`);
         success = success || function () {};
         failure = failure || function () {};
         retries = retries || 30;
@@ -532,7 +536,6 @@ amorphic = // Needs to be global to make mocha tests work
             }
         };
 
-        message.requestID = this.generateUID();
         try {
             request.send(JSON.stringify(message));
         }
