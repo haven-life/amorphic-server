@@ -10,13 +10,11 @@ module.exports.controller = function(objectTemplate, getTemplate) {
 	getTemplate('mail.js', { app: 'config' });
 	getTemplate('anotherMail.js');
 
+
 	var Controller = objectTemplate.create('Controller', {
-		mainFunc: {
-			on: 'server',
-			body: function() {
+        mainFunc: {on: 'server', body: function () {
 				return serverAssert();
-			}
-		},
+        }},
 		conflictData: { type: String, value: 'initial' },
 		someData: { type: String, value: 'A' },
 		sam: { type: Customer, fetch: true },
@@ -24,50 +22,42 @@ module.exports.controller = function(objectTemplate, getTemplate) {
 		ashling: { type: Customer, fetch: true },
 		updatedCount: { type: Number, value: 0 },
 		serverInit: function() {
-			console.log(this.amorphic.config.sessionSeconds);
 			if (!objectTemplate.objectMap) {
 				throw new Error('Missing keepOriginalIdForSavedObjects in config.json');
 			}
 			serverController = this;
 		},
-		clearDB: {
-			on: 'server',
-			body: function() {
+        clearDB: {on: 'server', body: function () {
 				var total = 0;
 				return clearCollection(Role)
 					.then(function(count) {
 						total += count;
 						return clearCollection(Account);
-					})
-					.then(function(count) {
+                }).then(function (count) {
 						total += count;
 						return clearCollection(Customer);
-					})
-					.then(function(count) {
+                }).then(function (count) {
 						total += count;
 						return clearCollection(Transaction);
-					})
-					.then(function(count) {
+                }).then(function (count) {
 						total += count;
 						return clearCollection(ReturnedMail);
-					})
-					.then(function(count) {
+                }).then(function (count) {
 						total += count;
 						return clearCollection(Address);
-					})
-					.then(function(count) {
+                }).then(function (count) {
 						total += count;
 						serverAssert(total);
 					});
 				function clearCollection(template) {
-					return objectTemplate.dropKnexTable(template).then(function() {
+                return objectTemplate.dropKnexTable(template)
+                    .then(function () {
 						return objectTemplate.synchronizeKnexTableFromTemplate(template).then(function() {
 							return 0;
 						});
 					});
 				}
-			}
-		},
+        }},
 		clientInit: function() {
 			clientController = this;
 			// Setup customers and addresses
@@ -99,12 +89,7 @@ module.exports.controller = function(objectTemplate, getTemplate) {
 
 			// Setup accounts
 			var samsAccount = new Account(1234, ['Sam Elsamman'], sam, sam.addresses[0]);
-			var jointAccount = new Account(
-				123,
-				['Sam Elsamman', 'Karen Burke', 'Ashling Burke'],
-				sam,
-				karen.addresses[0]
-			);
+            var jointAccount = new Account(123, ['Sam Elsamman', 'Karen Burke', 'Ashling Burke'], sam, karen.addresses[0]);
 			jointAccount.addCustomer(karen, 'joint');
 			jointAccount.addCustomer(ashling, 'joint');
 
@@ -127,13 +112,11 @@ module.exports.controller = function(objectTemplate, getTemplate) {
 				.then(this.sam ? this.sam.refresh.bind(this.sam, null) : true)
 				.then(this.karen ? this.karen.refresh.bind(this.karen, null) : true)
 				.then(this.ashling ? this.ashling.refresh.bind(this.ashling, null) : true)
-				.then(
-					function() {
+                .then(function () {
 						objectTemplate.begin();
 						console.log(this.sam ? this.sam.__version__ : '');
 						objectTemplate.currentTransaction.touchTop = true;
-					}.bind(this)
-				);
+                }.bind(this));
 		},
 		postServerCall: function() {
 			if (this.postServerCallThrowException) {
@@ -150,7 +133,8 @@ module.exports.controller = function(objectTemplate, getTemplate) {
 			objectTemplate.currentTransaction.postSave = function(txn) {
 				this.updatedCount = _.toArray(txn.savedObjects).length;
 			}.bind(this);
-			return objectTemplate.end().then(function() {
+            return objectTemplate.end()
+                .then(function () {
 				PostCallAssert();
 			});
 		},
@@ -168,4 +152,5 @@ module.exports.controller = function(objectTemplate, getTemplate) {
 	});
 
 	return { Controller: Controller };
+
 };

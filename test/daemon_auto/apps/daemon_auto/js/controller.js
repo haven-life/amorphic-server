@@ -8,16 +8,13 @@ module.exports.controller = function(objectTemplate, uses) {
 
 	var Controller = BaseController.extend('Controller', {
 		prop: { type: Boolean, value: false },
-		propWithValuesAndDescriptions: {
-			type: String,
+        propWithValuesAndDescriptions: {type: String,
 			values: ['value'],
 			descriptions: {
 				value: 'Description'
 			}
 		},
-		virtualProp: {
-			type: String,
-			isVirtual: true,
+        virtualProp: {type: String, isVirtual: true,
 			get: function() {
 				return 'I am virtual';
 			}
@@ -28,20 +25,18 @@ module.exports.controller = function(objectTemplate, uses) {
 			daemonAutoController = this;
 		},
 
-		processPost: {
-			on: 'server',
-			body: function(uri, body) {
+        processPost: {on: 'server', body: function(uri, body) {
 				this.posted = body.myfield;
 				return { status: 303, headers: { location: uri.replace(/amorphic.*/, '') } };
-			}
-		},
+        }},
 
 		onContentRequest: function(req, res) {
 			var path = url.parse(req.originalUrl, true).query.file;
 			var file = __dirname + '/./' + path;
 			try {
 				var stat = fs.statSync(file);
-			} catch (e) {
+            }
+            catch (e) {
 				res.writeHead(404, { 'Content-Type': 'text/plain' });
 				res.end('Not found');
 				return;
