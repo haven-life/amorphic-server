@@ -222,7 +222,7 @@ amorphic = // Needs to be global to make mocha tests work
                 if (this.controller && typeof(this.controller.displayError) === 'function') {
                     this.controller.displayError(output);
                 }
-            } else if (level === 'info' && (component && component === 'browser')) {
+            } else if (component && component === 'browser') {
                 this.sendLoggingMessage(level, data);
 
                 if (this.controller && typeof(this.controller.displayError) === 'function') {
@@ -477,7 +477,6 @@ amorphic = // Needs to be global to make mocha tests work
 
         // Add request ID for every post call into the messages loggingContext
         message.loggingContext.requestID = this.generateUID();
-        console.log(`\n\n\n RequestId is ${message.loggingContext.requestID}`);
         success = success || function () {};
         failure = failure || function () {};
         retries = retries || 30;
