@@ -1,5 +1,16 @@
-## 4.5.1
-* Fixed info level logging from client in an amorphic app was not propogating to the server side logs
+## 5.1.0
+* Logging Improvements
+* Added any level logging from client in an amorphic app to propagate to the server side logs
+* Adding request id logging on every amorphic request with a handler on the client.js (if you want to use it)
+* Adding a `postServerErrorHandler` callback in semotus
+## 5.0.0
+* breaking change for daemon applications. server mode config is now only config used to specify run mode.
+* deamon apps will need to change config from "isDaemon": true, to "serverMode": "daemon"
+* allowing amorphic session apps to set up custom endpoints
+* refactor server mode to be the source of truth for server configuration
+## 4.6.0
+* Using stats client for persistor
+* Amorphic will now pull all minor supertype, persistor and semotus changes instead of only bug fixes
 ## 4.5.0
 * Using @havenlife/supertype, @havenlife/semotus, @havenlife/persistor
 * refactor inactivity logout functionality.
