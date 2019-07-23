@@ -216,19 +216,16 @@ amorphic = // Needs to be global to make mocha tests work
 
             console.log(output);
 
-            if (level == 'error' || level == 'fatal' ) {
+            var levelStatus = level == 'error' || level == 'fatal';
+            var clientOverride = component && component === 'browser';
+
+            if ( levelStatus || clientOverride) {
                 this.sendLoggingMessage(level, data);
 
                 if (this.controller && typeof(this.controller.displayError) === 'function') {
                     this.controller.displayError(output);
                 }
-            } else if (component && component === 'browser') {
-                this.sendLoggingMessage(level, data);
-
-                if (this.controller && typeof(this.controller.displayError) === 'function') {
-                    this.controller.displayError(output);
-                }
-            }
+            } 
         }.bind(this);
 
         this.setContextProps = RemoteObjectTemplate.logger.setContextProps;
