@@ -1,6 +1,11 @@
 ## 5.1.0
 * Logging Improvements
-* Added any level logging from client in an amorphic app to propagate to the server side logs
+* Added any level logging from client in an amorphic app to propagate to the server side logs, as long as you specify the 'browser' component.
+* example: this.controller.amorphic.logger.info({
+            module: 'SomeTEST',
+            activity: 'handleError',
+            component: 'browser'
+        }, 'Client Side JS LOG from the BROWSER');
 * Adding request id logging on every amorphic request with a handler on the client.js (if you want to use it)
 * Adding a `postServerErrorHandler` callback in semotus - semotus 3.2.0
 ## 5.0.0
