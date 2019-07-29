@@ -6,7 +6,8 @@
             activity: 'testActivity',
             component: 'browser'
         }, 'Client Side JS LOG from browser');
-* Adding request id logging on every amorphic request with a handler on the client.js (if you want to use it)
+* Adding request id logging on every amorphic request (outside of processPost)
+* Adding a unique request ID generator in client.js for the front end if they want to generate one (generateUID)
 * Logs the amorphic, persistor, semotus, and supertype versions at startup
 ## 5.0.0
 * breaking change for daemon applications. server mode config is now only config used to specify run mode.

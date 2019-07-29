@@ -146,7 +146,7 @@ amorphic = // Needs to be global to make mocha tests work
     app: 'generic',
     sessionId: 0,
     loggingContext: {},
-    requestUID: 0,
+    storedUID: 0,
 
     /**
      * expire the user's session
@@ -432,8 +432,8 @@ amorphic = // Needs to be global to make mocha tests work
 
     generateUID: function () {
         // shamelessly taken from https://stackoverflow.com/questions/8012002/create-a-unique-number-with-javascript-time/28918947
-        this.requestUID = new Date().valueOf().toString(36) + Math.random().toString(36).substr(2);
-        return this.requestUID;
+        this.storedUID = new Date().valueOf().toString(36) + Math.random().toString(36).substr(2);
+        return this.storedUID;
     },
 
     _reset: function (message, appVersion, reload) {
