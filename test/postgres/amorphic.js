@@ -587,7 +587,10 @@ describe('Second Group of Tests', function () {
             method: 'post',
             url: 'http://localhost:3001/amorphic/xhr?path=test&form=true',
             data: {
-                sequence: 1
+                sequence: 1,
+                loggingContext: {
+                    requestID: 1000
+                }
             },
             validateStatus: function (status) {
                 return true;
@@ -801,6 +804,7 @@ describe('amorphic api enabled', function () {
                 assert.strictEqual(response.status, 200, 'The response code was 200');
             });
     });
+    
 });
 
 // TODO HL-16449 refactor testing suite, re-add statsd module disabled unit test.
