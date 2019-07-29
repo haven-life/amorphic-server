@@ -596,6 +596,7 @@ describe('Second Group of Tests', function () {
                 return true;
             }
         }).then(function (res) {
+            console.log(res.req);
             expect(res.status).to.equal(500);
             expect(res.data).to.equal('Internal Error');
         });
