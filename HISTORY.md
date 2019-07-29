@@ -9,6 +9,7 @@
 * Adding request id logging on every amorphic request (outside of processPost)
 * Adding a unique request ID generator in client.js for the front end if they want to generate one (generateUID)
 * Logs the amorphic, persistor, semotus, and supertype versions at startup
+* Adding types for the remote decorator and the properties associated with it
 ## 5.0.0
 * breaking change for daemon applications. server mode config is now only config used to specify run mode.
 * deamon apps will need to change config from "isDaemon": true, to "serverMode": "daemon"
