@@ -41,7 +41,7 @@ export interface IAmorphicRouteController {
      * @param {Response} res - Response object
      * @memberof IAmorphicRouteController
      */
-    onContentRequest(req: Request, res: Response): void;
+    onContentRequest?(req: Request, res: Response): void;
 
     /**
      * @server
@@ -62,6 +62,6 @@ export interface IAmorphicRouteController {
      * @returns {Promise<ControllerResponse>} - Promise containing the response you want to send back to the client
      * @memberof IAmorphicRouteController
      */
-    processPost(originalUrl: string, body: any, req: Request): Promise<ControllerResponse>;
+    processPost?(originalUrl: string, body: any, req: Request): Promise<ControllerResponse>;
 
 }

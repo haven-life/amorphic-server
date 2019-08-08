@@ -38,7 +38,7 @@ export interface ILifecycleController {
     * 
     * @returns {void}
     */
-    publicExpireSession(): void;
+    publicExpireSession?(): void;
 
     /**
      * @client
@@ -49,7 +49,7 @@ export interface ILifecycleController {
      * @returns {void}
      * @memberof AmorphicAppController
      */
-    shutdown(): void;
+    shutdown?(): void;
 
     /**
      * @server
@@ -72,7 +72,7 @@ export interface ILifecycleController {
      * @returns {Promise<void>}
      * @memberof ILifecycleController
      */
-    preServerCall(hasChanges: boolean, changes: PreServerCallChanges, callContext: CallContext, forceUpdate?: boolean): Promise<void>;
+    preServerCall?(hasChanges: boolean, changes: PreServerCallChanges, callContext: CallContext, forceUpdate?: boolean): Promise<void>;
 
     /**
      * @server
@@ -94,7 +94,7 @@ export interface ILifecycleController {
      * @returns {Promise<void>}
      * @memberof ILifecycleController
      */
-    postServerCall(hasChanges: boolean, callContext: CallContext, changeString: ChangeString): Promise<any>;
+    postServerCall?(hasChanges: boolean, callContext: CallContext, changeString: ChangeString): Promise<any>;
 
     /**
      * @server
@@ -116,7 +116,7 @@ export interface ILifecycleController {
      * @returns {Promise<void>}
      * @memberof Controller
      */
-    postServerErrorHandler(errorType: ErrorType, remoteCallId: number, remoteObj: Supertype, functionName: string, callContext: CallContext, changeString: ChangeString): Promise<void>;
+    postServerErrorHandler?(errorType: ErrorType, remoteCallId: number, remoteObj: Supertype, functionName: string, callContext: CallContext, changeString: ChangeString): Promise<void>;
 
     /**
      * @server
@@ -135,7 +135,7 @@ export interface ILifecycleController {
      * @returns {void}
      * @memberof ILifecycleController
      */
-    serverInit(): void;
+    serverInit?(): void;
 
     /**
      * @client
@@ -148,7 +148,7 @@ export interface ILifecycleController {
      * @returns {void}
      * @memberof AmorphicAppController
      */
-    clientInit(sessionExpiration?: number): void;
+    clientInit?(sessionExpiration?: number): void;
 
     /**
      * @client
@@ -159,6 +159,6 @@ export interface ILifecycleController {
      * @returns {void}
      * @memberof AmorphicAppController
      */
-    clientExpire(): void;
+    clientExpire?(): void;
 
 }

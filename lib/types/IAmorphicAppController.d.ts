@@ -41,7 +41,7 @@ export interface IAmorphicAppController extends IValidationController, ILifecycl
      * 
      * @param err Generic Semotus error caught and propogated up to this handler
      */
-    handleRemoteError(err: Error): void;
+    handleRemoteError?(err: Error): void;
 
     /**
      * @misnomer
@@ -52,6 +52,6 @@ export interface IAmorphicAppController extends IValidationController, ILifecycl
      * @param {string} output
      * @memberof AmorphicAppController
      */
-    displayError(output: string): void;
+    displayError?(output: string): void;
 
 }
