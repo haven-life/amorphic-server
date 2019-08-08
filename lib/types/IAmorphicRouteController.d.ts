@@ -28,7 +28,7 @@ export interface IAmorphicRouteController {
      * 
      * This is used in conjunction with Amorphic's 'downloadRouter', when you are downloading files / data from the server
      * 
-     * The request's url must have the following
+     * The request must be a GET and it's url must have the following
      * 
      * 1) A path specified with the app_name as the parameter
      * 2) A file passed as a query parameter
@@ -48,6 +48,13 @@ export interface IAmorphicRouteController {
      * 
      * ProcessPost is a powerful paradigm that allows the client to request for resources from within the Amorphic application
      * akin to routes. Amorphic will still establish the server session or create a new one, and afterwards hand off to this callback
+     * 
+     * The request must be a POST and it's url must have the following
+     * 
+     * 1) A path specified with the app_name as the parameter
+     * 2) A Form passed as a query parameter (unless it's through amorphicEntry)
+     * 
+     * Example: http://localhost:3001/amorphic/xhr?path=[app_name]&form=true
      * 
      * This is useful for calling resources that don't need the client to load up the full app or for third party services to call endpoints within the application
      * 
