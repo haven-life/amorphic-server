@@ -1,3 +1,5 @@
+import { Supertype } from '../..';
+
 /**
  * A server validation callback that can be passed into the remote decorator for a function.
  *
@@ -9,7 +11,7 @@
  * @returns {Promise<boolean>} - True if the validation has passed, and false if it failed
  *
  */
-type ServerValidationFunction = (object: any, ...args: any) => Promise<boolean>;
+type ServerValidationFunction = (object: Supertype, ...args: any[]) => Promise<boolean>;
 
 type RemoteDecoratorProps = {
 	/**
