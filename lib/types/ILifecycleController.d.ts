@@ -67,12 +67,12 @@ export interface ILifecycleController {
      * @param {boolean} hasChanges - Whether or not we have applied client changes onto the server's object graph
      * @param {PreServerCallChanges} changes - Dictionary of Objects that have been changed from the client
      * @param {CallContext} callContext - Context (number of retries etc)
-     * @param {boolean} [forceUpdate] - Optional parameter passed in. True if this is a retry of the call based on an update conflict. False / undefined otherwise.
-     * 
+     * @param {boolean} forceUpdate -  True if this is a retry of the call based on an update conflict. False / undefined otherwise.
+     * @param {boolean} functionName - The function name as a string
      * @returns {Promise<void>}
      * @memberof ILifecycleController
      */
-    preServerCall?(hasChanges: boolean, changes: PreServerCallChanges, callContext: CallContext, forceUpdate?: boolean): Promise<void>;
+    preServerCall?(hasChanges: boolean, changes: PreServerCallChanges, callContext: CallContext, forceUpdate: undefined | boolean, functionName: string): Promise<void>;
 
     /**
      * @server

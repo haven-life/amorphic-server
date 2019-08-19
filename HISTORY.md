@@ -1,3 +1,5 @@
+## 5.3.0
+* Fixing old type and adding new types for preservercall
 ## 5.2.0
 * Exposing expire session to all entry points that require session in the app
 * Adding interfaces / types / documentation for Amorphic App Controller
