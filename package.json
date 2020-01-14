@@ -55,7 +55,7 @@
 		"recreateDist": "rm -rf ./dist/ && mkdir ./dist/",
 		"test": "nyc npm run test:trace",
 		"test:docker": "docker-compose up --build",
-		"test:trace": "mocha test/*",
+		"test:trace": "mocha test/* --exit",
 		"test:debug": "mocha --inspect test/*",
 		"test:config": "mocha test/config",
 		"test:daemon": "mocha test/daemon/*",
