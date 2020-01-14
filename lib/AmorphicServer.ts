@@ -87,7 +87,7 @@ export class AmorphicServer {
         server.app.locals.version = serverOptions && serverOptions.version;
 
         // Default port for described
-        const port = AmorphicContext.amorphicOptions.port || 3000; // default to 3000 if not listed
+        const port = AmorphicContext.amorphicOptions.port;
         const securePort = serverOptions && serverOptions.securePort;
         const isSecure = serverOptions && serverOptions.isSecure;
 
