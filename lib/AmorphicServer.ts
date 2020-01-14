@@ -87,7 +87,7 @@ export class AmorphicServer {
         server.app.locals.version = serverOptions && serverOptions.version;
 
         // Default port for described
-        const port = AmorphicContext.amorphicOptions.port;
+        const port = AmorphicContext.amorphicOptions.port || 3000; // default to 3000 if not listed
         const securePort = serverOptions && serverOptions.securePort;
         const isSecure = serverOptions && serverOptions.isSecure;
 
@@ -96,7 +96,7 @@ export class AmorphicServer {
             const serverOptions = appConfig.appConfig.serverOptions;
 
             let httpServer;
-            // Use a securePort            
+            // Use a securePort
             if (securePort) {
                 const serverOptions = appConfig.appConfig.serverOptions;
                 httpServer = https.createServer(serverOptions, server.app).listen(securePort);
@@ -129,7 +129,7 @@ export class AmorphicServer {
 
     /**
     * @static
-    * @param {string} appDirectory is the directory wher the app is located 
+    * @param {string} appDirectory is the directory wher the app is located
     * @param {AmorphicServer} server
     * @returns {express.Express}
     * @memberof AmorphicServer
@@ -269,7 +269,7 @@ export class AmorphicServer {
      *
      * @param {*} appDirectory
      * @param {*} mainAppPath
-     * @param {string} [apiPath='/api'] Default to '/api' as the default setting 
+     * @param {string} [apiPath='/api'] Default to '/api' as the default setting
      * for amorphic is for the '/amorphic' routes to run
      * @memberof AmorphicServer
      */
