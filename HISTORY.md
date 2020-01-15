@@ -1,7 +1,10 @@
-## 5.3.0
+## 5.4.0
 * Default app port to 3000 if not listed
 * Security fix to remove istanbul for NYC
 * Fixing old type and adding new types for preServerCall
+## 5.3.0
+* use the os' temporary directory to store downloads instead of project root directory.
+* default to knex db connection instead of mongo
 ## 5.2.0
 * Exposing expire session to all entry points that require session in the app
 * Adding interfaces / types / documentation for Amorphic App Controller
