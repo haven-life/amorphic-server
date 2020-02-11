@@ -1,0 +1,11 @@
+test
+.vscode
+coverage
+.eslintignore
+.eslintrc.js
+tsconfig.json
+wait-for-it.sh
+./lib
+./index.d.ts
+./index.ts
+.circleci

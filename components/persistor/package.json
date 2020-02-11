@@ -1,0 +1,70 @@
+{
+    "name": "@havenlife/persistor",
+    "description": "A subclass of supertype that serializes to and reconstitutes from mongodb",
+    "homepage": "https://github.com/haven-life/persistor",
+    "version": "3.2.2",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "aws-sdk": "2.x",
+        "bluebird": "x",
+        "knex": "0.15.2",
+        "mongodb-bluebird": "x",
+        "pg": "7.4.1",
+        "q": "1.x",
+        "tv4": "^1.2.7",
+        "underscore": "1.x",
+        "uuid": "3.3.3"
+    },
+    "peerDependencies": {
+        "@havenlife/supertype": "3.x"
+    },
+    "devDependencies": {
+        "@havenlife/supertype": "3.x",
+        "chai": "3.x",
+        "chai-as-promised": "^5.1.0",
+        "nyc": "13.0.0",
+        "mocha": "5.2.0",
+        "sinon": "1.15.x",
+        "sinon-chai": "2.8.x",
+        "mock-fs": "3.6.x",
+        "eslint": "3.7.x",
+        "@types/chai": "^3.4.34",
+        "@types/mocha": "^2.2.39",
+        "@types/node": "^7.0.5",
+        "@types/q": "*",
+        "@types/underscore": "*",
+        "@types/bluebird": "*",
+        "typescript": "*",
+        "ts-node": "*"
+    },
+    "directories": {},
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/haven-life/persistor.git"
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "coverage": "nyc mocha --exit -- test/* -R spec",
+        "compile": "tsc -p ./tsconfig.json && cp index.d.ts dist/ && cp ./lib/persistable.ts dist/lib/",
+        "compile:tests": "tsc -p ./test/supertype/tsconfig.test.json",
+        "compile:all": "npm run compile && npm run compile:tests",
+        "prepublishOnly": "npm run compile",
+        "test": "nyc _mocha -- test/* -R spec",
+        "test:debug": "mocha test/**/*.js --inspect-brk=0.0.0.0:5858",
+        "test:docker": "docker-compose up --build",
+        "test:docker:debug": "docker-compose -f docker-compose-debug.yml up --build",
+        "test:compiled:js": "_mocha ./test/supertype/persist_banking_pgsql.js --exit",
+        "test:config": "mocha test/config --exit",
+        "test:example": "mocha test/example --exit",
+        "test:ts": "mocha --compilers ts:ts-node/register test/supertype/persist_banking_pgsql.ts",
+        "test:ts:debug": "mocha --inspect-brk --compilers ts:ts-node/register test/supertype/persist_banking_pgsql.ts"
+    },
+    "bugs": {
+        "url": "http://github.com/haven-life/persistor/issues"
+    },
+    "optionalDependencies": {}
+}
