@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "install": "lerna run install",
     "build": "lerna run prepublishOnly",
     "test": "lerna run test",
     "test:ts": "lerna run test:ts",
@@ -11,7 +12,7 @@
     "test:ts:supertype": "lerna run test:ts --scope=@havenlife/supertype",
     "test:semotus": "lerna run test --scope=@havenlife/semotus",
     "test:ts:semotus": "lerna run test:ts --scope=@havenlife/semotus",
-    "test:persistor": "lerna run test --scope=@havenlife/persistor",
+    "test:persistor": "lerna run test --stream --scope=@havenlife/persistor",
     "test:ts:persistor": "lerna run test:ts --scope=@havenlife/persistor",
     "test:amorphic": "lerna run test --scope=amorphic",
     "test:ts:amorphic": "lerna run test:ts --scope=amorphic",
