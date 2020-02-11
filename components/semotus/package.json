@@ -10,6 +10,7 @@
 		"@havenlife/supertype": "3.3.*"
 	},
 	"devDependencies": {
+		"reflect-metadata": "^0.1.13",
 		"@havenlife/supertype": "3.3.*",
 		"@types/bluebird": "*",
 		"@types/chai": "^3.4.34",
