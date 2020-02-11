@@ -55,14 +55,14 @@ jobs:
           command: npm run test:ts:supertype
 
       # run javascript tests - Semotus!
-      - run:
-          name: Semotus JS Tests
-          command: npm run test:semotus
-
-      # run typescript tests - Semotus!
-      - run:
-          name: Semotus TS Tests
-          command: npm run test:ts:semotus
+#      - run:
+#          name: Semotus JS Tests
+#          command: npm run test:semotus
+#
+#      # run typescript tests - Semotus!
+#      - run:
+#          name: Semotus TS Tests
+#          command: npm run test:ts:semotus
 
       # run javascript tests - Persistor!
       - run:
