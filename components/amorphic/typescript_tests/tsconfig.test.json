@@ -2,6 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
+        "allowJs": true,
         "lib": [
             "dom",
             "es5",
@@ -13,12 +14,7 @@
             "../node_modules/@types"
         ],
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "paths": {
-            "@havenlife/*": [
-                "../../src"
-            ]
-        }
+        "emitDecoratorMetadata": true
     },
     "include": [
         "./unittest",
