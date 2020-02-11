@@ -26,6 +26,7 @@
 		"typescript": "2.9.1"
 	},
 	"scripts": {
+		"setup": "npm install",
 		"tsTests": "npm run compile && npm run tsTests",
 		"debugTSTests": "mocha --inspect-brk test/supertype/semotus.js",
 		"debugJSTests": "mocha --inspect-brk test/*.js",

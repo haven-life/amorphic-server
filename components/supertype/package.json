@@ -22,6 +22,7 @@
         "typescript": "2.9.2"
     },
     "scripts": {
+        "setup": "npm install",
         "debug:tests": "mocha --inspect-brk test/animals.js",
         "debug:tstests": "mocha --inspect-brk test/typescript/*.js",
         "test:ts": "mocha --compilers ts:ts-node/register,tsx:ts-node/register test/typescript/*",

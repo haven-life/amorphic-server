@@ -47,6 +47,7 @@
 		"xmlhttprequest-cookie": "0.9.4"
 	},
 	"scripts": {
+		"setup": "npm install",
 		"build": "npm run recreateDist && npm run copy && npm run compile",
 		"compile": "tsc -p ./tsconfig.json",
 		"compile:amorphic:tests": "tsc -p ./typescript_tests/tsconfig.test.json",

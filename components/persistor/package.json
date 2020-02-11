@@ -47,6 +47,7 @@
         "url": "git://github.com/haven-life/persistor.git"
     },
     "scripts": {
+        "setup": "npm install",
         "lint": "eslint .",
         "coverage": "nyc mocha --exit -- test/* -R spec",
         "compile": "tsc -p ./tsconfig.json && cp index.d.ts dist/ && cp ./lib/persistable.ts dist/lib/",
