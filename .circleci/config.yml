@@ -28,7 +28,7 @@ jobs:
           - v1-dependencies-
       - run:
           name: Install lerna
-          command: npm install
+          command: npm run bootstrap
 
       - save_cache:
           paths:
@@ -36,8 +36,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: Bootstrap all modules
-          command: npm run bootstrap
+          name: Install all modules
+          command: npm install
 
       # build for all packages
       - run:
