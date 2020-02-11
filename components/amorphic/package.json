@@ -68,9 +68,7 @@
 		"test-d": "nyc npm run test:daemon",
 		"test-da": "nyc npm run test:daemon_auto",
 		"test:ts:register": "mocha -r ts-node/register --project typescript_tests/tsconfig.test.json typescript_tests/unittest.ts",
-		"test:ts": "npm run compile:amorphic:tests && npm run isthishere && npm run ls && npm run test:compiled:js",
-		"isthishere": "cat ./typescript_tests/unittest.ts && cat ./typescript_tests/tsconfig.test.json",
-		"ls": "ls ./typescript_tests",
+		"test:ts": "npm run compile:amorphic:tests && npm run test:compiled:js",
 		"test:compiled:js": "mocha ./typescript_tests/unittest.js",
 		"test:ts:debug": "tsc && mocha --inspect-brk typescript_tests/unittest.js"
 	},
