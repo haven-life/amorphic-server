@@ -63,12 +63,12 @@ jobs:
 #      - run:
 #          name: Semotus TS Tests
 #          command: npm run test:ts:semotus
-
-
-      # run javascript tests - Amorphic!
-      - run:
-          name: Amorphic JS Tests
-          command: npm run test:amorphic
+#
+#
+#      # run javascript tests - Amorphic!
+#      - run:
+#          name: Amorphic JS Tests
+#          command: npm run test:amorphic
 
       # run typescript tests - Amorphic!
       - run:
