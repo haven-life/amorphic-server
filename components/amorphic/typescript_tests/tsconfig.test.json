@@ -16,9 +16,7 @@
         "emitDecoratorMetadata": true
     },
     "include": [
-        "./unittest",
-        "./apps"
-    ],
-
-    "exclude": ["../node_modules", "../../semotus", "../../supertype", "../../persistor"]
+        "./unittest.ts",
+        "./apps.ts"
+    ]
 }
