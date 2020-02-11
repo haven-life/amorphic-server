@@ -3,6 +3,12 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.10.0
+        environment:
+          port: 3001
+          dbUser: postgres
+          dbName: test
+          mongoHost: localhost
+          logLevel: info
 
       - image: circleci/mongo:latest
 
@@ -20,10 +26,9 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run:
-          name: npm-install
-          command: npm install
+          name: Install lerna
+          command: npm run bootstrap
 
       - save_cache:
           paths:
@@ -31,15 +36,54 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: npm-setup-prepublish 
+          name: Bootstrap all modules
+          command: npm run bootstrap
+
+      - run:
+          name: Lint
+          command: npm run lint
+
+      # build for all packages
+      - run:
+          name: Build packages
           command: npm run prepublishOnly
 
-      # run javascript tests!
+      # run javascript tests - Supertype!
       - run:
-          name: test
-          command: npm test
+          name: Supertype JS Tests
+          command: npm test:supertype
 
-      # run typescript tests!
+      # run typescript tests - Supertype!
       - run:
-          name: test:ts
-          command: npm run test:ts
+          name: Supertype TS Tests
+          command: npm run test:ts:supertype
+
+      # run javascript tests - Semotus!
+      - run:
+          name: Semotus JS Tests
+          command: npm test:semotus
+
+      # run typescript tests - Semotus!
+      - run:
+          name: Semotus TS Tests
+          command: npm run test:ts:semotus
+
+      # run javascript tests - Persistor!
+      - run:
+          name: Persistor JS Tests
+          command: npm test:persistor
+
+      # run typescript tests - Persistor!
+      - run:
+          name: Persistor TS Tests
+          command: npm run test:ts:persistor
+
+      # run javascript tests - Amorphic!
+      - run:
+          name: Amorphic JS Tests
+          command: npm test:amorphic
+
+      # run typescript tests - Amorphic!
+      - run:
+          name: Amorphic TS Tests
+          command: npm run test:ts:amorphic
