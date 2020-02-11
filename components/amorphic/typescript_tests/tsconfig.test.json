@@ -2,7 +2,6 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
-        "allowJs": true,
         "lib": [
             "dom",
             "es5",
@@ -21,5 +20,5 @@
         "./apps"
     ],
 
-    "exclude": ["node_modules", "../../semotus", "../../supertype", "../../persistor"]
+    "exclude": ["../node_modules", "../../semotus", "../../supertype", "../../persistor"]
 }
