@@ -49,10 +49,10 @@ jobs:
 #          name: Supertype JS Tests
 #          command: npm run test:supertype
 #
-#      # run typescript tests - Supertype!
-#      - run:
-#          name: Supertype TS Tests
-#          command: npm run test:ts:supertype
+      # run typescript tests - Supertype!
+      - run:
+          name: Supertype TS Tests
+          command: npm run test:ts:supertype
 
       # run javascript tests - Semotus!
       - run:

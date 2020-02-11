@@ -30,8 +30,8 @@
 		"tsTests": "npm run compile && npm run tsTests",
 		"debugTSTests": "mocha --inspect-brk test/supertype/semotus.js",
 		"debugJSTests": "mocha --inspect-brk test/*.js",
-		"test:ts": "mocha ./test/supertype/semotus.js",
-		"test": "mocha ./test/types.js ./test/semotus.js",
+		"test:ts": "mocha -- test/supertype/semotus.js -R spec",
+		"test": "mocha test/types.js test/semotus.js",
 		"coverage": "istanbul cover _mocha -- test/supertype/semotus.js -R spec",
 		"compile": "tsc",
 		"prepublishOnly": "npm run compile"
