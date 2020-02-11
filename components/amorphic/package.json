@@ -22,6 +22,7 @@
 		"uglify-js": "2.7.5"
 	},
 	"devDependencies": {
+		"underscore": "^1.9.2",
 		"@havenlife/semotus": "^3.2.x",
 		"@types/chai": "4.0.4",
 		"@types/compression": "0.0.36",
@@ -53,9 +54,9 @@
 		"lint": "eslint .",
 		"prepublishOnly": "npm run build",
 		"recreateDist": "rm -rf ./dist/ && mkdir ./dist/",
-		"test": "nyc npm run test:trace",
+		"test": "mocha test/* --exit",
 		"test:docker": "docker-compose up --build",
-		"test:trace": "mocha test/* --exit",
+		"test:trace": "nyc npm run test",
 		"test:debug": "mocha --inspect test/*",
 		"test:config": "mocha test/config",
 		"test:daemon": "mocha test/daemon/*",
