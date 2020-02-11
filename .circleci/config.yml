@@ -42,7 +42,7 @@ jobs:
       # build for all packages
       - run:
           name: Build packages
-          command: npm run prepublishOnly
+          command: npm run build
 
       # run javascript tests - Supertype!
       - run:
