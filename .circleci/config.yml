@@ -37,7 +37,7 @@ jobs:
 
       - run:
           name: Install all modules
-          command: npm install
+          command: npm run setup
 
       # build for all packages
       - run:
