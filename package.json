@@ -17,20 +17,7 @@
     "test:ts:amorphic": "lerna run test:ts --scope=amorphic",
     "lint": "lerna run lint"
   },
-  "dependencies": {
-    "ng2-semantic-ui": "^0.9.7"
-  },
   "devDependencies": {
-    "@angular/cli": "^8.3.25",
-    "@types/bluebird": "3.5.29",
-    "@types/bootstrap": "4.3.1",
-    "@types/bunyan": "1.8.6",
-    "@types/chai": "4.2.6",
-    "@types/graphql": "14.5.0",
-    "@types/mocha": "^7.0.1",
-    "@types/node": "^8.9.5",
-    "@types/request": "2.48.3",
-    "@types/util.promisify": "1.0.1",
     "lerna": "^3.20.2"
   }
 }
