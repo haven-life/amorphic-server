@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "install": "lerna run install",
+    "setup": "lerna install",
     "build": "lerna run prepublishOnly",
     "test": "lerna run test",
     "test:ts": "lerna run test:ts",
