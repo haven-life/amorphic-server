@@ -13,11 +13,17 @@
             "../node_modules/@types"
         ],
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "paths": {
+            "@havenlife/*": [
+                "../../src"
+            ]
+        }
     },
     "include": [
         "./unittest",
         "./apps"
     ],
+
     "exclude": ["node_modules", "../../semotus", "../../supertype", "../../persistor"]
 }
