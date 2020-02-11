@@ -37,7 +37,7 @@ jobs:
       # run javascript tests!
       - run:
           name: test
-          command: npm test
+          command: npm run test:trace
 
       # run typescript tests!
       - run:
