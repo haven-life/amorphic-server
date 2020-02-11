@@ -69,7 +69,7 @@
 		"test-da": "nyc npm run test:daemon_auto",
 		"test:ts:register": "mocha -r ts-node/register --project typescript_tests/tsconfig.test.json typescript_tests/unittest.ts",
 		"test:ts": "npm run compile:amorphic:tests && npm run test:compiled:js",
-		"test:compiled:js": "mocha -- typescript_tests/unittest.js",
+		"test:compiled:js": "mocha -- ./typescript_tests/unittest.js",
 		"test:ts:debug": "tsc && mocha --inspect-brk typescript_tests/unittest.js"
 	},
 	"directories": {},
