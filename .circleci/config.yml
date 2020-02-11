@@ -39,10 +39,6 @@ jobs:
           name: Bootstrap all modules
           command: npm run bootstrap
 
-      - run:
-          name: Lint
-          command: npm run lint
-
       # build for all packages
       - run:
           name: Build packages
@@ -51,7 +47,7 @@ jobs:
       # run javascript tests - Supertype!
       - run:
           name: Supertype JS Tests
-          command: npm test:supertype
+          command: npm run test:supertype
 
       # run typescript tests - Supertype!
       - run:
@@ -61,7 +57,7 @@ jobs:
       # run javascript tests - Semotus!
       - run:
           name: Semotus JS Tests
-          command: npm test:semotus
+          command: npm run test:semotus
 
       # run typescript tests - Semotus!
       - run:
@@ -71,7 +67,7 @@ jobs:
       # run javascript tests - Persistor!
       - run:
           name: Persistor JS Tests
-          command: npm test:persistor
+          command: npm run test:persistor
 
       # run typescript tests - Persistor!
       - run:
@@ -81,9 +77,19 @@ jobs:
       # run javascript tests - Amorphic!
       - run:
           name: Amorphic JS Tests
-          command: npm test:amorphic
+          command: npm run test:amorphic
 
       # run typescript tests - Amorphic!
       - run:
           name: Amorphic TS Tests
           command: npm run test:ts:amorphic
+
+#      # run all js tests
+#      - run:
+#          name: All Tests
+#          command: npm run test
+#
+#      # run all ts tests
+#      - run:
+#          name: All Tests
+#          command: npm run test:ts
