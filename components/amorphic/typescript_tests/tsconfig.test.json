@@ -18,5 +18,6 @@
     "include": [
         "./unittest",
         "./apps"
-    ]
+    ],
+    "exclude": ["node_modules"]
 }
