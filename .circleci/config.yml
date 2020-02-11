@@ -83,6 +83,15 @@ jobs:
       - run:
           name: Amorphic TS Tests
           command: npm run test:ts:amorphic
+      # run javascript tests - Persistor!
+      - run:
+          name: Persistor JS Tests
+          command: npm run test:persistor
+
+      # run typescript tests - Persistor!
+      - run:
+          name: Persistor TS Tests
+          command: npm run test:ts:persistor
 
 #      # run all js tests
 #      - run:
