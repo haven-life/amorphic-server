@@ -45,14 +45,14 @@ jobs:
           command: npm run build
 
       # run javascript tests - Supertype!
-      - run:
-          name: Supertype JS Tests
-          command: npm run test:supertype
-
-      # run typescript tests - Supertype!
-      - run:
-          name: Supertype TS Tests
-          command: npm run test:ts:supertype
+#      - run:
+#          name: Supertype JS Tests
+#          command: npm run test:supertype
+#
+#      # run typescript tests - Supertype!
+#      - run:
+#          name: Supertype TS Tests
+#          command: npm run test:ts:supertype
 
       # run javascript tests - Semotus!
 #      - run:
@@ -65,14 +65,14 @@ jobs:
 #          command: npm run test:ts:semotus
 
       # run javascript tests - Persistor!
-      - run:
-          name: Persistor JS Tests
-          command: npm run test:persistor
-
-      # run typescript tests - Persistor!
-      - run:
-          name: Persistor TS Tests
-          command: npm run test:ts:persistor
+#      - run:
+#          name: Persistor JS Tests
+#          command: npm run test:persistor
+#
+#      # run typescript tests - Persistor!
+#      - run:
+#          name: Persistor TS Tests
+#          command: npm run test:ts:persistor
 
       # run javascript tests - Amorphic!
       - run:
