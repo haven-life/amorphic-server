@@ -1,0 +1,10 @@
+.idea
+*.iml
+node_modules
+npm-debug.log
+coverage
+dist
+/coverage/
+/dist/
+/node_modules/
+/test/typescript/**/*.js

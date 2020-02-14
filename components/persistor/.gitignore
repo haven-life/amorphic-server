@@ -1,0 +1,10 @@
+.idea
+.vscode
+node_modules
+npm-debug.log
+download
+coverage
+dist
+.nyc_output
+test/supertype/*.js
+lib/persistable.js

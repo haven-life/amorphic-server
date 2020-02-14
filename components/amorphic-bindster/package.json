@@ -1,0 +1,36 @@
+{
+  "name": "amorphic-bindster",
+  "description": "bindster support for amorphic",
+  "homepage": "https://github.com/haven-life/amorphic-bindster",
+  "version": "2.0.2",
+  "dependencies": {
+    "q": "1.x"
+  },
+  "devDependencies": {
+    "chai": "3.x",
+    "eslint": "3.7.x",
+    "mocha": "^3.1.2",
+    "supertype": "^2.0.x",
+    "sinon": "^1.17.6"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha ./test/"
+  },
+  "directories": {},
+  "main": "./index.js",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/haven-life/amorphic-bindster.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haven-life/amorphic-bindster/issues"
+  },
+  "optionalDependencies": {},
+  "readme": "# amorphic-bindster\r\n\r\n## Purpose\r\n\r\nBinds bindster to an amorphic controller and makes bindster itself available to the client.\r\n\r\n## Installation\r\n\r\nInstalled automatically with amorphic\r\n\r\n## License\r\n\r\nsuperType is licensed under the MIT license\r\n\r\n\r\n\r\n",
+  "readmeFilename": "README.md",
+  "_id": "amorphic-bindster@0.1.0",
+  "_from": "amorphic-bindster@0.1.x"
+}
